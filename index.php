@@ -3,6 +3,8 @@ include "core/config.php";
 if ($_SESSION['lang']=='lang2'){ $lang='lang2'; }
 else { $lang='lang1'; }
 
+//EEEEE
+
 $link='index.php';
 
 $title=$site[$lang]['name'].' - ';
