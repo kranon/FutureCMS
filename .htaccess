@@ -1,0 +1,6 @@
+RewriteEngine On
+
+Redirect 301 /user/ http://futurecms.my/Avtorizatsiya.php
+Redirect 301 /user http://futurecms.my/Avtorizatsiya.php
+
+#Redirect 301 /Galereya/ http://futurecms.my/Galereya.php
