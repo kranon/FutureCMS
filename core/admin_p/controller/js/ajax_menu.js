@@ -8,7 +8,6 @@ $(document).ready(function(){
 			$.each(data, function(adata){
 				if (this.published==1){pub='checked="checked"';}
 				else{pub='';}
-				//text+='<tr><td class="al_center">'+this.id+'</td><td><input class="ed" type="text" name="id_'+this.id+'" value="'+this.num+'"></td><td><input type="text" name="name_lang1_'+this.id+'" value="'+this.name_lang1+'"/></td><td><input type="text" name="name_lang2_'+this.id+'" value="'+this.name_lang2+'"/></td><td><input type="text" name="link_'+this.id+'" value="'+this.link+'"/></td><td class="al_center"><input type="text" class="ed" name="in_'+this.id+'" value="'+this.inm+'"></td><td class="al_center"><input type="checkbox" name="'+this.id+'" value="1" '+pub+'/></td><td class="al_center"><a href="controller/menuDel.php?id='+this.id+'" class="del" title="Удалить"><img src="view/del.png" /></a></td></tr>';
 				text+='<li class="ui-state-default" id='+this.id+'><div class="line well"><div class="menu_id">'+this.id+'</div><span><input type="text" name="name_lang1_'+this.id+'" value="'+this.lang1+'"/></span><span><input type="text" name="name_lang2_'+this.id+'" value="'+this.lang2+'"/></span><span><input type="text" name="link_'+this.id+'" value="'+this.link+'"/></span><span class="in_menu"><input type="text" class="ed" name="in_'+this.id+'" value="'+this.in+'"></span><span class="publ"><input type="checkbox" name="'+this.id+'" value="1" '+pub+'/></span><span class="menu_del"><a href="controller/menuDel.php?id='+this.id+'" class="del" title="Удалить"><i class="icon-trash"></i></a></span></div></li>';
 			});
 			
@@ -18,7 +17,7 @@ $(document).ready(function(){
 				'<span id="name2"><b>Имя lang2</b></span>'+
 				'<span id="link"><b>Ссылка</b></span>'+
 				'<span id="in_menu"><b>В меню</b></span>'+
-				'<span id="publ"><b>Опубл.</b></span>'+
+				'<span id="publ"><b>Активно</b></span>'+
 				'<span id="menu_del"><b>Del</b></span></div>'+
 				'<ul id="sortable">'+text+'</ul>');
 			
@@ -41,7 +40,7 @@ $(document).ready(function(){
 	// вывод результата действий при сохранений
 	function report(answer,message){
 		if (answer==1){
-				$('#mess').html('<b>&nbsp;'+message+'&nbsp;</b>').show().fadeOut(2000);
+				$('#mess').html(message).show().fadeOut(2000);
 			}
 			else{
 				$('#mess').html('<b>&nbsp;'+answer+'&nbsp;</b>').show().fadeOut(5000);

@@ -8,13 +8,17 @@ $(document).ready(function(){
 			var in_menu='';
 			var i=1;
 			$.each(data, function(adata){
-				if (this.in_menu==1){in_menu='checked="checked"';}
-				else{in_menu='';}
+				if (this.in_menu==1){
+					in_menu='checked="checked"';
+				}
+				else{
+					in_menu='';
+				}
 				if (this.group==1){
 					text+='<tr><td>'+i+'</td><td><a href="index.php?content=page_edit&id='+this.id+'">'+this.lang1+'</a></td><td>'+this.link+'</td><td class="al_center"><input type="checkbox" name="menu_'+this.id+'" value="1" '+in_menu+'/></td><td>'+this.edit_date+'</td><td class="al_center"><a href="controller/page_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></a></td></tr>';
 				}
 				else{
-					text+='<tr><td>'+i+'</td><td><a href="index.php?content=page_edit&id='+this.id+'">'+this.lang1+'</a></td><td>&nbsp;'+this.link+'&nbsp;</td><td>'+this.edit_date+'</td></tr>';
+					text+='<tr><td>'+i+'</td><td><a href="index.php?content=page_edit&id='+this.id+'">'+this.lang1+'</a></td><td>'+this.link+'</td><td>'+this.edit_date+'</td></tr>';
 				}
 				i++;
 			});
@@ -25,10 +29,10 @@ $(document).ready(function(){
 	function report(answer,message){
 		if (answer=='1'){
 				getCon();
-				$('#mess').html('<b>&nbsp;'+message+'&nbsp;</b>').show().fadeOut(1500);
+				$('#mess').html('<b>'+message+'</b>').hide().show().fadeOut(6500);
 			}
 			else{
-				$('#mess').html('<b>&nbsp;'+answer+'&nbsp;</b>').show().fadeOut(5000);
+				$('#mess').html('<b>'+answer+'</b>').hide().show().fadeOut(5000);
 			}
 	}
 	getCon();

@@ -6,18 +6,16 @@ if (($group=='1')|($group=='2')){
 	$logout='<i class="icon-user icon-white"></i> '.$_SESSION['login'].' <a href="../logout.php">Выход</a>';
 	
 	$title=$site['lang1']['name'].' - ';
-	$footer='<hr><p>© 2010-'.date('Y').' Sobko Andrey E-mail: <a href="mailto:kranon@tut.by">kranon@tut.by</a><br />
+	$footer='<p>© 2010-'.date('Y').' Sobko Andrey E-mail: <a href="mailto:kranon@tut.by">kranon@tut.by</a><br />
 		ver. '.$site['version'].'</p>';
 		
 	if ($group=='1'){
-	$menu='<ul class="nav">
-		<li><a href="index.php?content=pages">Страницы</a></li>
+	$menu='<li><a href="index.php?content=pages">Страницы</a></li>
 		<li><a href="index.php?content=news">Новости</a></li>
 		<li><a href="index.php?content=menu">Меню</a></li>
 		<li><a href="index.php?content=users">Пользователи</a></li>
 		<li><a href="index.php?content=gallery">Галерея</a></li>
-		<li><a href="index.php?content=settings">Настройки</a></li>
-		</ul>';
+		<li><a href="index.php?content=settings">Настройки</a></li>';
 	}
 	else{
 		$menu='<ul class="nav">
@@ -68,7 +66,7 @@ if (($group=='1')|($group=='2')){
 			$header='Главная';
 			break;
 	}
-	include 'templates/template3.php';
+	include 'templates/template4.php';
 }
 else {
 	header('Location: ../../index.php');

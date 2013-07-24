@@ -20,5 +20,5 @@ while ($row = mysql_fetch_array($res)){
 		);
 }
 // год - № недели - день недели
-$site['version']='12.16.3';
+$site['version']='13.26.5';
 ?>

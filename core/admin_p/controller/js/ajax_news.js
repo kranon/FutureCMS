@@ -6,7 +6,7 @@
 			var text='';
 			var i=1;
 			$.each(data, function(adata){
-				text+='<tr><td class="al_center">&nbsp;'+i+'&nbsp;</td><td><a href="index.php?content=news_edit&id='+this.id+'">'+this.caption_lang1+'</a></td><td>'+this.count+'</td><td>&nbsp;'+this.date+'&nbsp;</td><td class="al_center"><a href="controller/news_del.php?id='+this.id+'" title="удалить" class="del"><i class="icon-trash"></i></a></td></tr>';
+				text+='<tr><td class="al_center">&nbsp;'+i+'&nbsp;</td><td><a href="index.php?content=news_edit&id='+this.id+'">'+this.caption_lang1+'</a></td><td>'+this.count+'</td><td>'+this.date+'</td><td class="al_center"><a href="controller/news_del.php?id='+this.id+'" title="удалить" class="del"><i class="icon-trash"></i></a></td></tr>';
 				i++;
 			});
 			$('#tbody').html(text);
