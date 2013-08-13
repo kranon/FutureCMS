@@ -45,70 +45,62 @@
     margin-left: -40px;
   }
   #name1{
-    margin-left: 80px;
+    margin-left: 85px;
   }
   #name2{
-    margin-left: 150px;
+    margin-left: 170px;
   }
   #in_menu{
     margin-left: 90px;
   }
   #link{
-    margin-left: 160px;
+    margin-left: 145px;
   }
   #publ{
-    margin-left: 5px;
+    margin-left: 10px;
   }
   #menu_del{
-    margin-left: 5px;
+    margin-left: 10px;
   }
   #sortable{
     list-style: none;
   }
-  .gallery_right{
-    position: relative;
-  }
-  .gallery_del{
-    float: right;
-    margin-left: 20px;
-    margin-top: -10px;
-    margin-right: -20px;
-  }
+
   .line,.album_line{
-    border: #C5C5C5 solid 1px;
-    margin: 5px;
-    padding: 3px;
-    padding-left: 40px;
-    padding-right: 25px;
-    min-width: 290px;
-  }
+        border: #C5C5C5 solid 1px;
+        margin: 5px;
+        padding: 3px;
+        padding-left: 40px;
+        padding-right: 25px;
+        min-width: 290px;
+      }
   .line_head{
-    border: #C5C5C5 solid 1px;
-    margin: 5px;
-    margin-left: 30px;
-    border-radius: 3px;
-    padding: 3px;
-    padding-left: 10px;
-  }
+        border: #C5C5C5 solid 1px;
+        margin: 5px;
+        margin-left: 30px;
+        border-radius: 3px;
+        padding: 3px;
+        padding-left: 10px;
+      }
   .menu_id{
-    position: absolute;
-    margin-left: -30px;
-    margin-top: 7px;
-    display: block;
-    width: 30px;
-  }
-  .in_menu{
-    margin-left: 11px;
-  }
-  .publ{
-    margin-left: 40px;
-  }
-  .menu_del{
-    margin-left: 50px;
-  }
-  .ed{
-    width: 35px;
-  }
+        position: absolute;
+        margin-left: -30px;
+        margin-top: 7px;
+        display: block;
+        width: 30px;
+      }
+      .in_menu{
+        margin-left: 15px;
+      }
+      .publ{
+        margin-left: 35px;
+      }
+      .menu_del{
+        margin-left: 30px;
+      }
+      .ed{
+        width: 10px;
+      }
 
 
  </style>
@@ -258,7 +250,7 @@
                 <input type="text" name="link" class="in_text" placeholder="Ссылка">
                 <input type="text" name="in" placeholder="Вложено в">
                 <label class="checkbox">
-                  <input type="checkbox" name="publ">&nbsp;&nbsp;Опубликовать&nbsp;
+                  <input type="checkbox" name="publ"> Опубликовать
                 </label>
                 <input type="submit" id="add_menu_sub" class="btn btn-success" value=" Добавить меню "/>
             </fieldset>
@@ -286,7 +278,7 @@
           <script type="text/javascript" src="controller/js/ajax_user.js"></script>
           <div class="row-fluid">
             <div class="span8">
-              <i class="icon-user"></i> <span id="users_count"></span><br /><br />
+              <i class="icon-user"></i> <span id="users_count"></span>
               <form class="form-inline" action="controller/user_save.php" method="post" name="user_inf" id="user_inf">
                 <!--<table class="table table-striped table-bordered">
                   <thead>
@@ -321,8 +313,8 @@
                       background: #F5F5F5;
                       padding-left: 2px;
                       position: relative;
-                      top:-88px;
-                      right:-10px;
+                      top:-49px;
+                      right:-8px;
                       float: right;
                       border:1px solid gray;
                       width: 17px;
@@ -370,7 +362,7 @@
           <script type="text/javascript" src="controller/js/ajax_gallery.js"></script>
           <div class="row-fluid">
             <div class="span7">
-              <form class="form form-inline" action="controller/album_pub.php" method="post" name="gallery_ed">
+              <form class="form-inline" action="controller/album_pub.php" method="post" name="gallery_ed">
                 <div id="tbody_gallery"></div>
               </form>
             </div>
@@ -473,7 +465,7 @@
           $album_id=$_GET['id'];
           $sql="SELECT `name_lang1`,`name_lang2`,`link`,`album_year` FROM `gallery` WHERE `id`=".$album_id;
           $result = $db->query($sql);
-          while ($row = mysql_fetch_array($result)){
+          while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
             $album_data=array(
               'name_lang1'=>$row['name_lang1'],
               'name_lang2'=>$row['name_lang2'],
@@ -509,14 +501,6 @@
               color: #fff;
             }
 
-            .box{
-              width:100px;
-            }
-            .table th{
-              text-align: center;
-            }
-
-
           </style>
           <script type="text/javascript" src="controller/js/ajax_gallery.js"></script>
           <script type="text/javascript" src="../lightBox/js/jquery.lightbox-0.5.min.js"></script>
@@ -545,45 +529,48 @@
               <table class="table table-striped table-bordered">
                 <thead>
                   <th><b>Фото</b></th>
-                  <th><b>Имя файла</b></th>
+                  <th><b>Имя</b></th>
                   <th><b>Удалить</b></th>
                 </thead>
                 <tbody>
                   <?php
                     foreach($mas as $fileName){
-                      echo '<tr><td class="box"><a href="../../../gallery/'.$album_data['link'].'/'.$fileName.'"><img src="../../../gallery/'.$album_data['link'].'/thumbs/'.$fileName.'"></a></td>
-                      <td align="center">'.$fileName.'</td>
+                      echo '<tr><td class="box"><ul><li><a href="../../../gallery/'.$album_data['link'].'/'.$fileName.'"><img src="../../../gallery/'.$album_data['link'].'/thumbs/'.$fileName.'"></a></li></ul></td>
+                      <td align="center" width="250">'.$fileName.'</td>
                       <td align="center"><a href="controller/foto_del.php?album='.$album_data['link'].'&name='.$fileName.'">Удалить</a></td></tr>';
                     }
                   ?>
                 </tbody></table>
             <?php }?>
 
+
             </div>
             <div class="span4">
-              <form class="well form" method="post" action="controller/album_set.php" name="edit_album" id="edit_album" class="form">
-                <input type="text" placeholder="Язык 1" name="name_lang1" value="<?php echo $album_data['name_lang1'];?>"><br />
-                <input type="text" placeholder="Язык 2" name="name_lang2" value="<?php echo $album_data['name_lang2'];?>"><br />
-                <input type="text" placeholder="Год альбома" name="album_year" value="<?php echo $album_data['album_year'];?>"><br />
-                <input type="hidden" name="id" value="<?=$album_id;?>">
+              <form class="well form-inline" method="post" action="controller/album_set.php" name="edit_album" id="edit_album" class="form">
+                <b>Название альбома:</b><br />
+                Язык 1<br />
+                <input type="text" name="name_lang1" value="<?php echo $album_data['name_lang1'];?>"><br />
+                Язык 2<br />
+                <input type="text" name="name_lang2" value="<?php echo $album_data['name_lang2'];?>"><br />
+                Год альбома<br />
+                <input type="text" name="album_year" value="<?php echo $album_data['album_year'];?>"><br />
+                <input type="hidden" name="id" value="<?php echo $album_id;?>">
               </form>
-              <div class="well">
-                <script type="text/javascript">
-                  $(document).ready(function(){
-                    $('#file_upload').uploadify({
-                      'uploader'  : 'controller/uploadify/uploadify.swf',
-                      'script'    : 'controller/foto_load.php?link=<?=$album_data['link']?>',
-                      'cancelImg' : 'controller/uploadify/cancel.png',
-                      'folder'    : 'controller/uploads',
-                      'auto'      : true,
-                      'multi'     : true,
-                      'fileDesc'  : 'Images (jpg, jpeg)',
-                      'fileExt'   : '*.jpeg;*.jpg;*.JPG;'
-                    });
+              <script type="text/javascript">
+                $(document).ready(function(){
+                  $('#file_upload').uploadify({
+                    'uploader'  : 'controller/uploadify/uploadify.swf',
+                    'script'    : 'controller/foto_load.php?link=<?php echo $album_data['link']?>',
+                    'cancelImg' : 'controller/uploadify/cancel.png',
+                    'folder'    : 'controller/uploads',
+                    'auto'      : true,
+                    'multi'     : true,
+                    'fileDesc'  : 'Images (jpg, jpeg)',
+                    'fileExt'   : '*.jpeg;*.jpg;*.JPG;'
                   });
-                </script>
-                <input id="file_upload" type="file" name="file_upload" />
-              </div>
+                });
+              </script>
+              <input id="file_upload" type="file" name="file_upload" />
             </div>
           </div>
         <?php

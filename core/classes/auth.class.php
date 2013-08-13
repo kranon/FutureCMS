@@ -151,25 +151,20 @@ public $a='var a =  class Auth';
 		return $form;
 	}
 	public static function ShowRegForm($word,$action){
-		$form='<br /><div id="register">
-			<div class="container">
-				<form class="well form-inline" enctype="multipart/form-data" action="'.$action.'" method="post" name="reg_form" id="reg_form">
-				'.$word[6].'<br />
-				<input type="text" name="login" id="login"><br />
-				'.$word[7].'<br />
-				<input type="password" name="pass" id="pass"><br />
-				'.$word[29].'<br />
-				<input type="password" name="retype_pass" id="retype_pass"><br />
-				'.$word[8].'<br />
-				<input type="text" name="email" id="email"><br />
-				'.$word[9].'<br />
-				<input type="file" name="userfile" id="userfile"/><br />
+		$form='<div id="register">
+				<form class="form well" enctype="multipart/form-data" action="'.$action.'" method="post" name="reg_form" id="reg_form">
+				<input type="text" name="login" id="login" placeholder="'.$word[6].'">
+				<input type="password" name="pass" id="pass" placeholder="'.$word[7].'">
+				<input type="password" name="retype_pass" id="retype_pass" placeholder="'.$word[29].'">				
+				<input type="text" name="email" id="email" placeholder="'.$word[8].'">
+				
+				<input type="file" name="userfile" id="userfile" placeholder="'.$word[9].'">
 				'.$word[10].'<br />
 				<input type="radio" name="sex" checked="checked" value="men"/> '.$word[11].'<br />
-				<input type="radio" name="sex" value="women"/> '.$word[12].'<br />
-				<input type="hidden" name="group" value="3" /><br /> 
-				<input type="submit" class="btn-success" id="AddUser" value=" '.$word[2].' "/><br />
-				</form></div></div>';
+				<input type="radio" name="sex" value="women"/> '.$word[12].'<br /><br />
+				<input type="hidden" name="group" value="3" />
+				<input type="submit" class="btn btn-success" id="AddUser" value="'.$word[2].' "/>
+				</form></div>';
 		return $form;
 	}
 }

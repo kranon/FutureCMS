@@ -16,9 +16,9 @@ $(document).ready(function(){
 				'<span id="name1"><b>Имя lang1</b></span>'+
 				'<span id="name2"><b>Имя lang2</b></span>'+
 				'<span id="link"><b>Ссылка</b></span>'+
-				'<span id="in_menu"><b>В меню</b></span>'+
+				'<span id="in_menu"><b>Родитель</b></span>'+
 				'<span id="publ"><b>Активно</b></span>'+
-				'<span id="menu_del"><b>Del</b></span></div>'+
+				'<span id="menu_del"><b>Удалить</b></span></div>'+
 				'<ul id="sortable">'+text+'</ul>');
 			
 			// drag and drop
