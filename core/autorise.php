@@ -24,6 +24,6 @@ else{
 }   
 
 $db->CloseDBConnection();
-header('Location: ../Avtorizatsiya.php');
+header('Location: ../login/');
 exit;
 ?>

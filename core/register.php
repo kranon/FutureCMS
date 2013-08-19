@@ -26,7 +26,7 @@ if ($auth->validLogin($user['logn']) & $auth->validPass($user['pass'],$user['ret
 	
 	if ($auth->uniqueLoginEmail($user['logn'], $user['email'])){
 		$auth->register($user);
-		header('Location: ../Avtorizatsiya.php');
+		header('Location: ../login/');
 		exit;
 	}
 	else{
@@ -37,6 +37,6 @@ else{
 	$_SESSION['reg_error']='Введите корректные данные!';
 }
 
-header('Location: ../Registratsiya.php');
+header('Location: ../register/');
 exit;
 ?>

@@ -62,10 +62,10 @@ class DataBase{
 				$mor['lang1']='Падрабязней';
 				$mor['lang2']='Подробней';
 				$news.='<div class="news">
-				<a href="read_news.php?id='.$row['id'].'"><h4 class="news_caption">'.$caption.'</h4></a>
+				<a href="/news/'.$row['id'].'/"><h4 class="news_caption">'.$caption.'</h4></a>
 				<span class="news_date">'.$row['date'].'</span>
 				<span class="news_num_comments">Комментариев: '.$count.'</span>
-				<span class="news_read"><a href="read_news.php?id='.$row['id'].'">'.$mor[$lang].'</a></span><br />
+				<span class="news_read"><a href="/news/'.$row['id'].'/">'.$mor[$lang].'</a></span><br />
 				</div>';
 			}
 			return $news;
@@ -251,10 +251,23 @@ class DataBase{
 		if($this->connection){
             $sql="SELECT `".$lang."` FROM `page` WHERE `link` = '".$PageLink."'";
 			$result=self::query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-				$pageData=$row[$lang];
+			while ($row = mysql_fetch_array($result)){
+				$pageData = $row[$lang];
 			}
 			return $pageData;
+        }
+    }
+    //Проверка на существование страницы
+    public function CheckPage($PageLink){
+		if($this->connection){
+            $sql="SELECT `id` FROM `page` WHERE `link` = '".$PageLink."'";
+			$result=self::query($sql);
+			if(mysql_num_rows($result)){
+				return true;
+			}
+			else{
+				return false;
+			}
         }
     }
 
@@ -289,7 +302,7 @@ class DataBase{
        if($this->connection){
 			$sql="SELECT `text_".$lang."` FROM `page` WHERE `link` = '".$link."'";
             $result = self::query($sql);
-            while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
+            while ($row = mysql_fetch_array($result)){
 				$text=$row[0];
             }
             mysql_free_result($result);
@@ -326,7 +339,7 @@ class DataBase{
 				$sql="SELECT `id`,`name_".$lang."`,`link`,`date` FROM `gallery` WHERE album_year='".$sort."' ORDER BY `num`";
 			}
             $result = $this->query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
+			while ($row = mysql_fetch_array($result)){
 				$mas=$this->OpenAlbum($row['id'],'./');
 				$name=array(
 					'lang1'=>$row['name_lang1'],
@@ -335,15 +348,15 @@ class DataBase{
 
 				$num=count($mas);
 				$gallery.='<div class="album">
-						<a href="album.php?id='.$row['id'].'">';
+						<a href="/album/'.$row['id'].'/">';
 							if ($mas[0]){
-								$gallery.='<img src="gallery/'.$row['link'].'/thumbs/'.$mas[0].'">';
+								$gallery.='<img src="/gallery/'.$row['link'].'/thumbs/'.$mas[0].'">';
 							}
 							else{
-								$gallery.='<img src="image/nopic.jpg">';
+								$gallery.='<img src="/image/nopic.jpg">';
 							}
 				$gallery.='</a>
-						<a href="album.php?id='.$row['id'].'" class="albumName">'.$name[$lang].'</a>
+						<a href="/album/'.$row['id'].'/" class="albumName">'.$name[$lang].'</a>
 						<p class="numberFoto">'.$textNumFoto[$lang].$num.'</p>
 						<p class="dateFoto">'.$date_lang[$lang].' '.$row['date'].'</p>
 					</div>';
@@ -357,7 +370,7 @@ class DataBase{
 		if($this->connection){
 			$sql="SELECT `link` FROM `gallery` WHERE `id`=$id";
             $result = self::query($sql);
-            while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
+            while ($row = mysql_fetch_array($result)){
                 $link=$row['link'];
             }
             mysql_free_result($result);
@@ -391,13 +404,13 @@ class DataBase{
 	// Функция транслитерации с русского на английский
     public function translitIt($str){
 		$tr = array(
-			"А"=>"A","Б"=>"B","В"=>"V","Г"=>"G",
-			"Д"=>"D","Е"=>"E","Ж"=>"J","З"=>"Z","И"=>"I",
-			"Й"=>"Y","К"=>"K","Л"=>"L","М"=>"M","Н"=>"N",
-			"О"=>"O","П"=>"P","Р"=>"R","С"=>"S","Т"=>"T",
-			"У"=>"U","Ф"=>"F","Х"=>"H","Ц"=>"TS","Ч"=>"CH",
-			"Ш"=>"SH","Щ"=>"SCH","Ъ"=>"","Ы"=>"YI","Ь"=>"",
-			"Э"=>"E","Ю"=>"YU","Я"=>"YA","а"=>"a","б"=>"b",
+			"А"=>"a","Б"=>"b","В"=>"v","Г"=>"g",
+			"Д"=>"d","Е"=>"e","Ж"=>"j","З"=>"z","И"=>"i",
+			"Й"=>"y","К"=>"k","Л"=>"l","М"=>"m","Н"=>"n",
+			"О"=>"o","П"=>"p","Р"=>"r","С"=>"s","Т"=>"t",
+			"У"=>"u","Ф"=>"f","Х"=>"h","Ц"=>"ts","Ч"=>"ch",
+			"Ш"=>"sh","Щ"=>"sch","Ъ"=>"","Ы"=>"yi","Ь"=>"",
+			"Э"=>"e","Ю"=>"yu","Я"=>"ya","а"=>"a","б"=>"b",
 			"в"=>"v","г"=>"g","д"=>"d","е"=>"e","ж"=>"j",
 			"з"=>"z","и"=>"i","й"=>"y","к"=>"k","л"=>"l",
 			"м"=>"m","н"=>"n","о"=>"o","п"=>"p","р"=>"r",

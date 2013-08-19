@@ -1,6 +1,16 @@
+# Включаем mod_rewrite
+ErrorDocument 404 /404.php
+
+Options +FollowSymLinks
+
 RewriteEngine On
+RewriteBase /
 
-Redirect 301 /user/ http://futurecms.my/Avtorizatsiya.php
-Redirect 301 /user http://futurecms.my/Avtorizatsiya.php
+# если REQUEST_FILENAME не является файлом
+RewriteCond %{REQUEST_FILENAME} !-f
 
-#Redirect 301 /Galereya/ http://futurecms.my/Galereya.php
+# и не директория т. е. папка
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^([^/]+)/$  /index.php?page=$1
+RewriteRule ^([^/]+)/([0-9]*)/$  /index.php?page=$1&id=$2

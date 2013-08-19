@@ -4,7 +4,7 @@ include "core/classes/auth.class.php";
 if ($_SESSION['lang']=='lang2'){ $lang='lang2'; }
 else { $lang='lang1'; }
 
-$link='Datyi_rekolektsiy.php';
+$link='novosti.php';
 
 $title=$site[$lang]['name'].' - ';
 $header=$site[$lang]['header'];

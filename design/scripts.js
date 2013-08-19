@@ -1,11 +1,9 @@
-<!--
-
 var def_color1 = "menupoz";
 var act_color1 = "menupoz2";
 var def_color = "menupoz_1";
 var act_color = "menupoz_2";
 var wysokosc_menu_level_1 = 36;
-var przesuniecie_level_1 = 0; 
+var przesuniecie_level_1 = 0;
 
 var wysokosc_submenulink = 1;
 var przesuniecie_submenulink = -1;
@@ -36,14 +34,14 @@ function setFastTimer(){
 
 function seth(objs, c, id, h){
    setTimer();
-   unset(c);  
-   hide(c); 
+   unset(c);
+   hide(c);
    obji[c] = objs;
    objj[c] = id;
-     
+
    objs.className = act_color;
 
-   show(id, h, 'sublink');     
+   show(id, h, 'sublink');
    setTimer();
 }
 
@@ -68,7 +66,7 @@ function setp(c, id, h, mode){
      document.getElementById(objj[c]).className = def_color1;
      document.getElementById('h'+objj[c]).className = def_color1;
   }
-  
+
   document.getElementById(id).className = act_color1;
   document.getElementById('h'+id).className = act_color1;
   objj[c] = id;
@@ -78,18 +76,18 @@ function unsetp(id, c){
   setFastTimer();
 }
 
-function show(id, h, mode){ 
+function show(id, h, mode){
    divmenu = 'm'+id;
    obj = document.getElementById(divmenu);
-   if( obj ){   
+   if( obj ){
      pos = getAnchorPosition(id);
-     if( mode=='sublink' ){  
+     if( mode=='sublink' ){
      	if( document.getElementById('ma'+h) ){
      		 if( document.getElementById('ma'+h).clientWidth > 0 )
 				ww = document.getElementById('ma'+h).clientWidth;
 		     else if( document.getElementById('ma'+h).offsetWidth )
 				ww = document.getElementById('ma'+h).clientWidth;
-	     	 document.getElementById(divmenu).style.left = parseFloat(parseFloat(document.getElementById('ma'+h).style.left) + parseFloat(ww)+przesuniecie_submenulink)+'px'; 
+	     	 document.getElementById(divmenu).style.left = parseFloat(parseFloat(document.getElementById('ma'+h).style.left) + parseFloat(ww)+przesuniecie_submenulink)+'px';
 	     	 document.getElementById(divmenu).style.top = parseFloat(parseFloat(pos.y)-parseFloat(wysokosc_submenulink))+'px';
      	}
      }else if( mode=='center' ){
@@ -102,27 +100,27 @@ function show(id, h, mode){
      	document.getElementById(divmenu).style.left= parseFloat(pos.x+przesuniecie_level_1)+'px';
      	document.getElementById(divmenu).style.top= parseFloat(pos.y+wysokosc_menu_level_1)+'px';
    	 }
-     document.getElementById(divmenu).style.display='block';  
+     document.getElementById(divmenu).style.display='block';
      setTimer();
    }
 }
 
 function hide(c) {
   if( c > 0 ){
-  	 if(objj[c] && document.getElementById('m'+objj[c]) )	
+  	 if(objj[c] && document.getElementById('m'+objj[c]) )
   	 	document.getElementById('m'+objj[c]).style.display = 'none';
-     
+
   } else {
      var Nodes = document.getElementsByTagName('div')
      var max = Nodes.length
      for(var i=0;i<max;i++) {
-                 var nodeObj = Nodes.item(i);                                
+                 var nodeObj = Nodes.item(i);
                  if(nodeObj.id.indexOf('ma')!=-1 ) {
-                    nodeObj.style.display = 'none';                                
+                    nodeObj.style.display = 'none';
                  }
      }
   }
-}    
+}
 
 function czysc(o){
   for (var i=0; i<o.length;i++) {
@@ -257,7 +255,7 @@ function AnchorPosition_getPageOffsetLeft (el) {
 	}
 function AnchorPosition_getWindowOffsetLeft (el) {
 	return AnchorPosition_getPageOffsetLeft(el)-document.body.scrollLeft;
-	}	
+	}
 function AnchorPosition_getPageOffsetTop (el) {
 	var ot=el.offsetTop;
 	while((el=el.offsetParent) != null) { ot += el.offsetTop; }
@@ -293,19 +291,19 @@ function hideall(all, b) {
                         var Nodes = document.getElementsByTagName('table')
                         var max = Nodes.length
                         for(var i=0;i<max;i++) {
-                                var nodeObj = Nodes.item(i);                                
+                                var nodeObj = Nodes.item(i);
                                 if(nodeObj.id.indexOf(b)!=-1) {
-                                   nodeObj.style.display = all;                                
+                                   nodeObj.style.display = all;
                                 }
                         }
-}       
+}
 function hideallt(all, ids, tag) {
                         var Nodes = document.getElementsByTagName(tag)
                         var max = Nodes.length
                         for(var i=0;i<max;i++) {
-                                var nodeObj = Nodes.item(i);                                
+                                var nodeObj = Nodes.item(i);
                                 if(nodeObj.id.indexOf(ids)!=-1) {
-                                   nodeObj.style.display = all;                                
+                                   nodeObj.style.display = all;
                                 }
                         }
 }
@@ -319,9 +317,6 @@ function mailer(pre, dom, c, mpre, mdom){
 	document.write("<a href='mailto:"+pre+"@"+dom+"' "+c+">"+mpre+(mdom ? "@"+mdom : "")+"</a>");
 }
 
-// -->  
-<!--
-
 function DmsImageBox(){
 	this.init = function (){
 		if (!document.getElementsByTagName){ return; }
@@ -333,7 +328,7 @@ function DmsImageBox(){
 				anchor.onclick = function () {return DmsImageBox.start(this);}
 			}
 		}
-		
+
 		var objOverlay = document.createElement("div");
 		objOverlay.setAttribute('id','overlay');
 		objOverlay.style.display = 'none';
@@ -347,11 +342,11 @@ function DmsImageBox(){
 		objOverlay.style.zIndex = '90';
 		objOverlay.style.position = 'absolute';
 		objOverlay.style.background = '#000000';
-		
+
 		objOverlay.onclick = function() { DmsImageBox.end(); return false; }
 		var objInside = document.createElement("div");
 		document.body.appendChild(objOverlay);
-		
+
 		objInside.setAttribute('id','inside');
 		objInside.style.display = 'none';
 		objInside.setAttribute('align','center');
@@ -362,7 +357,7 @@ function DmsImageBox(){
 		objInside.style.padding = '10px';
 		objInside.style.zIndex = '91';
 		document.body.appendChild(objInside);
-		
+
 	}
 	this.loadingInfo = function(){
 		var arrayPageSize = getPageSize();
@@ -370,11 +365,11 @@ function DmsImageBox(){
 		document.getElementById('overlay').style.height = arrayPageSize[1]+'px';
 		document.getElementById('inside').style.width = '150px';
 		document.getElementById('inside').style.height = '150px';
-		
+
 		arrayPageScroll = getPageScroll();
 		s = arrayPageScroll[1]+10;
 		document.getElementById('inside').style.top = s+'px';
-		
+
 		document.getElementById('inside').innerHTML = '<table cellpadding=0 cellspacing=0 width=100% height=100%><tr><td valign=middle align=center><img src="/grafika/loading.gif" border=0></td></tr></table>';
 		opacity('overlay', 0, 60, 500);
 		x = Math.round(arrayPageSize[2]/2) - 75;
@@ -388,7 +383,7 @@ function DmsImageBox(){
 		imgPreloader.onload= function() {
 			opacity('inside', 100, 0, 100);
 			DmsImageBox.showImage(bigImg, this.width, this.height);
-		}		
+		}
 		imgPreloader.src = bigImg;
 		return false;
 	}
@@ -414,10 +409,10 @@ function DmsImageBox(){
 }
 
 function getPageSize(){
-	
+
 	var xScroll, yScroll;
-	
-	if (window.innerHeight && window.scrollMaxY) {	
+
+	if (window.innerHeight && window.scrollMaxY) {
 		xScroll = document.body.scrollWidth;
 		yScroll = window.innerHeight + window.scrollMaxY;
 	} else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
@@ -427,7 +422,7 @@ function getPageSize(){
 		xScroll = document.body.offsetWidth;
 		yScroll = document.body.offsetHeight;
 	}
-	
+
 	var windowWidth, windowHeight;
 	if (self.innerHeight) {	// all except Explorer
 		windowWidth = self.innerWidth;
@@ -438,24 +433,24 @@ function getPageSize(){
 	} else if (document.body) { // other Explorers
 		windowWidth = document.body.clientWidth;
 		windowHeight = document.body.clientHeight;
-	}	
-	
+	}
+
 	// for small pages with total height less then height of the viewport
 	if(yScroll < windowHeight){
 		pageHeight = windowHeight;
-	} else { 
+	} else {
 		pageHeight = yScroll;
 	}
 
 	// for small pages with total width less then width of the viewport
-	if(xScroll < windowWidth){	
+	if(xScroll < windowWidth){
 		pageWidth = windowWidth;
 	} else {
 		pageWidth = xScroll;
 	}
 
 
-	arrayPageSize = new Array(pageWidth,pageHeight,windowWidth,windowHeight) 
+	arrayPageSize = new Array(pageWidth,pageHeight,windowWidth,windowHeight)
 	return arrayPageSize;
 }
 function getPageScroll(){
@@ -470,40 +465,40 @@ function getPageScroll(){
 		yScroll = document.body.scrollTop;
 	}
 
-	arrayPageScroll = new Array('',yScroll) 
+	arrayPageScroll = new Array('',yScroll)
 	return arrayPageScroll;
 }
-function opacity(id, opacStart, opacEnd, millisec) { 
-    //speed for each frame 
-    var speed = Math.round(millisec / 100); 
-    var timer = 0; 
+function opacity(id, opacStart, opacEnd, millisec) {
+    //speed for each frame
+    var speed = Math.round(millisec / 100);
+    var timer = 0;
 
-    //determine the direction for the blending, if start and end are the same nothing happens 
-    if(opacStart > opacEnd) { 
-        for(i = opacStart; i >= opacEnd; i--) { 
-            setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed)); 
-            timer++; 
-        } 
-    } else if(opacStart < opacEnd) { 
-        for(i = opacStart; i <= opacEnd; i++) 
-            { 
-            setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed)); 
-            timer++; 
-        } 
-    } 
-} 
+    //determine the direction for the blending, if start and end are the same nothing happens
+    if(opacStart > opacEnd) {
+        for(i = opacStart; i >= opacEnd; i--) {
+            setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed));
+            timer++;
+        }
+    } else if(opacStart < opacEnd) {
+        for(i = opacStart; i <= opacEnd; i++)
+            {
+            setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed));
+            timer++;
+        }
+    }
+}
 
-//change the opacity for different browsers 
-function changeOpac(opacity, id) { 
-    var object = document.getElementById(id).style; 
-    object.opacity = (opacity / 100); 
-    object.MozOpacity = (opacity / 100); 
-    object.KhtmlOpacity = (opacity / 100); 
-    object.filter = "alpha(opacity=" + opacity + ")"; 
+//change the opacity for different browsers
+function changeOpac(opacity, id) {
+    var object = document.getElementById(id).style;
+    object.opacity = (opacity / 100);
+    object.MozOpacity = (opacity / 100);
+    object.KhtmlOpacity = (opacity / 100);
+    object.filter = "alpha(opacity=" + opacity + ")";
 	object.display = 'block';
 	if( opacity == 0 )
 		document.getElementById(id).style.display = 'none';
-} 
+}
 function showSelectBoxes(){
 	selects = document.getElementsByTagName("select");
 	for (i = 0; i != selects.length; i++) {
@@ -529,12 +524,12 @@ function insertSwf(plik, width, height){
  rnd = width+height+ji;
  ji++;
  document.write('<div id="f'+rnd+'" style="width:'+width+';height:'+height+'px"></div>');
- 
+
  document.getElementById('f'+rnd).innerHTML = (
      '<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" WIDTH="' + width + '" HEIGHT="' + height + '"><PARAM NAME=movie VALUE="' + plik + '"><PARAM NAME=quality VALUE=high><PARAM NAME=wmode VALUE=transparent><PARAM NAME=bgcolor VALUE=#FFFFFF><EMBED src="' + plik + '" quality=high wmode="transparent" bgcolor=#FFFFFF WIDTH="' + width + '" HEIGHT="'
          + height
          + '" TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></EMBED></OBJECT>');
- 
+
 }
 
 //-->

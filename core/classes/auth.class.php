@@ -141,7 +141,7 @@ public $a='var a =  class Auth';
 	}
 	public static function ShowAuthForm($word){
 		$form='<div id="autorise">
-		<form action="core/autorise.php" method="post" name="autoris" id="autori">
+		<form action="/core/autorise.php" method="post" name="autoris" id="autori">
 		'.$word[6].'<br />
 		<input type="text" name="login" id="login"><br />
 		'.$word[7].'<br />

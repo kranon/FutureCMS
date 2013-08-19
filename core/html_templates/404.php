@@ -1,9 +1,10 @@
+<?header("HTTP/1.0 404 Not Found");?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="content-type" content="text/html" charset="utf-8" />
 	<title><?php echo $title.$name;?></title>
-	<script language="JavaScript" src="design/scripts.js" type="text/javascript"></script>
+	<script language="JavaScript" src="/design/scripts.js" type="text/javascript"></script>
 	<meta name="title" content="<?php echo $meta[$lang]['title'];?>" />
     <meta name="keywords" content="<?php echo $meta[$lang]['keywords'].', '.$name;?>" />
     <meta name="description" content="<?php echo $meta[$lang]['description'];?>" />
@@ -14,12 +15,12 @@
 	<script type="text/javascript" src="/core/js/jquery.js"></script>
 	<script type="text/javascript" src="/core/js/jquery.validate.js"></script>
 	<script type="text/javascript" src="/core/js/jquery.droppy.js"></script>
-	<script type='text/javascript'>$(function(){$('#nav').droppy();});</script>
+	<script type="text/javascript">$(function(){$('#nav').droppy();});</script>
 	<script type="text/javascript" src="/core/js/auth_validate.js"></script>
-	<script type='text/javascript' src="/core/js/hs_authForm.js"></script>
+	<script type="text/javascript" src="/core/js/hs_authForm.js"></script>
 	<?php echo $script;?>
 	<script type="text/javascript">
-  /*var _gaq = _gaq || [];
+  var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-34514367-1']);
   _gaq.push(['_trackPageview']);
 
@@ -27,7 +28,7 @@
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();*/
+  })();
 </script>
 </head>
 <body class="body">
@@ -59,7 +60,8 @@
 			<h1><?php echo $name;?></h1>
 		</td></tr>
 		<tr><td class="text">
-			 <?php echo $db->TextRead($link, $lang);?>
+			 <?php echo $db->TextRead($link, $lang);
+			 echo $form;?>
 		</td></tr>
 		</table>
 	</td>
@@ -69,7 +71,7 @@
   <tr><td colspan="2" class="menu_bot">
 		<img src="/design/iko_mb.gif" align="absmiddle" />
 		<a href="/" class="granat"><?php echo $word[25];?></a>
-		<img src="design/iko_mb.gif" align="absmiddle" />
+		<img src="/design/iko_mb.gif" align="absmiddle" />
 		<script type="text/javascript">mailer('kranon', 'tut.by', ' class="granat"', '<?php echo $word[26];?>', '');</script>
 		<img src="/design/iko_mb.gif" align="absmiddle" />
 		<a href="/login/" class="granat"><?php echo $word[27];?></a>

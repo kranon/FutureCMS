@@ -27,12 +27,12 @@
  -->
 
  <style>
- span{
-        margin-right: 5px;
-      }
+
+  span{
+    margin-right: 5px;
+  }
   #mess{
     position: fixed;
-    /*top: 0px;*/
     left: 50%;
     z-index: 10;
     display:none;
@@ -67,12 +67,14 @@
   }
   .gallery_right{
     position: relative;
+    float: right;
+    font-size: 12px;
   }
   .gallery_del{
     float: right;
     margin-left: 20px;
-    margin-top: -10px;
-    margin-right: -20px;
+    margin-top: -1px;
+    margin-right: -13px;
   }
   .line,.album_line{
     border: #C5C5C5 solid 1px;
