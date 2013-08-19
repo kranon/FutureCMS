@@ -153,11 +153,11 @@ class DataBase{
         }
     }
     // Чтение меню из БД и вывод его на экран ввиде ссылок
-    public function MenuRead($lang,$dir=''){
+    public function MenuRead($lang, $dir = ''){
 		if($this->connection){
-			$sql="SELECT `id`,`num`,`link`,`".$lang."`,`in` FROM `menu` WHERE `published`='1' ORDER BY `num`;";
+			$sql = "SELECT `id`,`num`,`link`,`".$lang."`,`in` FROM `menu` WHERE `published`='1' ORDER BY `num`;";
             $result = self::query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
+			while ($row = mysql_fetch_array($result)){
 				$menu[$row['num']]=array(
 						'id'=>$row['id'],
 						'in'=>$row['in'],
@@ -165,7 +165,7 @@ class DataBase{
 						'link'=>$row['link']
 						);
 			}
-
+			// TODO: перенести в шаблон
 			foreach($menu as $val){
 					if ($val['in']==0){
 						echo '<li class="menu"><a href="'.$val['link'].'" class="granat">'.$val['name'].'</a>';

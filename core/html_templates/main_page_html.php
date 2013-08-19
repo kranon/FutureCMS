@@ -59,7 +59,8 @@
 			<h1><?php echo $name;?></h1>
 		</td></tr>
 		<tr><td class="text">
-			 <?php echo $db->TextRead($link, $lang);?>
+			 <?php echo $db->TextRead($link, $lang);
+			 echo $form;?>
 		</td></tr>
 		</table>
 	</td>
