@@ -1,0 +1,26 @@
+#gallery {
+	background-color: #FFFFF0;
+	padding: 10px;
+	width: 470px;
+}
+#gallery {
+	display: inline-block;
+}
+#gallery img {
+	border: 5px solid #F7DD80;/*Цвет рамки вокру фото*/
+	border-width: 5px 5px 5px;
+	margin: 2px;
+	height: 55px;
+	width: 100px;
+}
+#gallery a:hover img {
+	border: 5px solid #E69600;/*Цвет рамки вокру фото при наведении*/
+	border-width: 5px 5px 5px;
+	color: #fff;
+}
+#gallery a:hover {
+	color: #fff;
+}
+#content a{
+	padding:0px 0px;
+}

@@ -1,10 +1,12 @@
 <?php
 # класс авторизации, регистрации пользователей
 class Auth {
-public $a='var a =  class Auth';
+
+/*public $a='var a =  class Auth';
 	public function getAFromDataBase(){
 		DataBase::getA();
 	}
+*/
 	protected function hex($str,$salt=null){
 		$hex_pass= sha1(sha1($str).$salt);
 		return $hex_pass;
@@ -78,7 +80,7 @@ public $a='var a =  class Auth';
 		$group	= $user['group'];
 		$ava	= $user['ava'];
 		
-		$hex_pass= $this->hex($pass,$logn);
+		$hex_pass = $this->hex($pass,$logn);
 		
 		// Если аватар выбран
 		if ($ava['userfile']['name']){
@@ -114,24 +116,29 @@ public $a='var a =  class Auth';
 		}
 		// Если аватар не выбран, то загрузить стандартный
 		else{
-			$uploadfile='../avatars/default.png';
+			$uploadfile = '../avatars/default.png';
 		}
-		if (!isset($group)|($group=='')){
-			$group=3;
+		if (!isset($group) || ($group == '')){
+			$group = 3;
 		}
+		$img = explode('/',$uploadfile);
+		$uploadfile = $img[2];
+		//echo '<pre>'; print_r($img); echo '</pre>';
+		//echo $uploadfile;
 		DataBase::userAdd($logn,$hex_pass,$email,$uploadfile,$sex,$group);
+		//DataBase::userAdd($login,$pass,$email,$ava,$sex,$group=3)
 		//$db->userAdd($logn,$hex_pass,$email,$uploadfile,$sex,$grup);
 	}
 	public function authorisation($logn, $pass){
-		$logn=DataBase::clearData($logn);
-		$pass=DataBase::clearData($pass);
+		$logn = DataBase::clearData($logn);
+		$pass = DataBase::clearData($pass);
 		
 		if (isset($logn) & isset($pass)){
-			$pass=sha1(sha1($pass).$logn);
+			$pass = sha1(sha1($pass).$logn);
 				
-			$sql="SELECT `login`,`pass` FROM `users` WHERE `login`='".$logn."' AND `pass`='".$pass."'";
+			$sql = "SELECT `login`,`pass` FROM `users` WHERE `login`='".$logn."' AND `pass`='".$pass."'";
 			$result = DataBase::query($sql);
-			if(mysql_num_rows($result)==0){
+			if(mysql_num_rows($result) == 0){
 				return false;
 			}
 			else{
@@ -141,7 +148,7 @@ public $a='var a =  class Auth';
 	}
 	public static function ShowAuthForm($word){
 		$form='<div id="autorise">
-		<form action="/core/autorise.php" method="post" name="autoris" id="autori">
+		<form action="" method="post" name="autoris" id="autori">
 		'.$word[6].'<br />
 		<input type="text" name="login" id="login"><br />
 		'.$word[7].'<br />

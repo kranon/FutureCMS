@@ -13,19 +13,19 @@ $sex		= $_POST['sex'];
 $grup		= $_POST['group'];
 $ava		= $_FILES;
 
-$user=array(
-	'logn'=>$logn,
-	'pass'=>$pass,
-	'ret_pass'=>$ret_pass,
-	'email'=>$email,
-	'sex'=>$sex,
-	'group'=>$grup,
-	'ava'=>$ava
+$user = array(
+	'logn'		=> $logn,
+	'pass'		=> $pass,
+	'ret_pass'	=> $ret_pass,
+	'email'		=> $email,
+	'sex'		=> $sex,
+	'group'		=> $grup,
+	'ava'		=> $ava
 );
 
 $auth = new auth();
 
-if ($auth->validLogin($user['logn']) & $auth->validPass($user['pass'],$user['ret_pass']) & $auth->validEmail($user['email'])){
+if ($auth->validLogin($user['logn']) && $auth->validPass($user['pass'],$user['ret_pass']) && $auth->validEmail($user['email'])){
 	
 	if ($auth->uniqueLoginEmail($user['logn'], $user['email'])){
 		$auth->register($user);

@@ -6,11 +6,11 @@
     <title><?=$title;?></title>
 
     <!-- Le styles -->
-    <link href="view/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="view/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="/core/admin_p/view/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/core/admin_p/view/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 
-    <link href="view/bootstrap/css/docs.css" rel="stylesheet">
-    <link href="view/bootstrap/css/prettify.css" rel="stylesheet">
+    <link href="/core/admin_p/view/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="/core/admin_p/view/bootstrap/css/prettify.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -111,7 +111,42 @@
   .ed{
     width: 35px;
   }
-
+  .comment{
+        position: relative;
+        min-height: 60px;
+        width: 100%;
+        border: #C5C5C5 solid 1px;
+        margin: 5px 0 5px 0;
+        border-radius: 5px;
+      }
+      .comment form{
+        width: 100%;
+      }
+      .com_text{
+        position: absolute;
+        top:22px;
+        left:120px;
+        width:100%;
+      }
+      .com_name_date{
+        position: absolute;
+        top:3px;
+        left:120px;
+        font-size: 0.8em;
+      }
+      .com_ava{
+        margin: 5px;
+      }
+      .com_del{
+        position: absolute;
+        top:10px;
+        right:10px;
+      }
+      .comm_news_submit{
+        position: absolute;
+        right:3px;
+        top: 80px;
+      }
 
  </style>
 
@@ -290,20 +325,6 @@
             <div class="span8">
               <i class="icon-user"></i> <span id="users_count"></span><br /><br />
               <form class="form-inline" action="controller/user_save.php" method="post" name="user_inf" id="user_inf">
-                <!--<table class="table table-striped table-bordered">
-                  <thead>
-                    <th><b>ID</b></th>
-                    <th><b>Логин</b></th>
-                    <th><b>Пароль</b></th>
-                    <th><b>E-mail</b></th>
-                    <th><b>Пол</b></th>
-                    <th><b>Группа</b></th>
-                    <th><b>Дата регистрации</b></th>
-                    <th><b>Аватар</b></th>
-                    <th><b>Удаление</b></th>
-                  </thead>
-                  <tbody id="tbody"></tbody>
-                  </table>-->
                   <style>
                     .user{
                       position: relative;
@@ -334,18 +355,6 @@
                       background-color: red;
                     }
                   </style>
-                  <!-- <div class="user">
-                    <div class="user_foto">
-                      <img src="/avatars/default.png" class="img-polaroid img-rounded">
-                    </div>
-                    <div class="data">
-                      kranon<br />
-                      kranon@tut.by
-                    </div>
-                    <div class="user_del_but_kran">
-                      <i class="icon-trash"></i>
-                    </div>
-                  </div> -->
                   <div id="users">
                   </div>
               </form>
@@ -485,7 +494,9 @@
           }
           $mas=$db->OpenAlbum($album_id,'../../');
           $n=(int)count($mas);?>
-          <link rel="stylesheet" type="text/css" href="../lightBox/css/jquery.lightbox-0.5.css" media="screen" />
+
+          <link rel="stylesheet" href="/core/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+          <!--<link rel="stylesheet" type="text/css" href="../lightBox/css/jquery.lightbox-0.5.css" media="screen" />-->
           <style type="text/css">
             /* jQuery lightBox plugin - Gallery style */
             .box{
@@ -496,7 +507,6 @@
               list-style: none;
               margin: 0px;
             }
-
             .box ul img{
               border: 5px solid #fff;/*Цвет рамки вокру фото*/
               /*border-width: 5px 5px 5px;
@@ -510,21 +520,20 @@
             .box ul a:hover{
               color: #fff;
             }
-
             .box{
               width:100px;
             }
             .table th{
               text-align: center;
             }
-
-
           </style>
-          <script type="text/javascript" src="controller/js/ajax_gallery.js"></script>
-          <script type="text/javascript" src="../lightBox/js/jquery.lightbox-0.5.min.js"></script>
+          <script type="text/javascript" src="controller/js/ajax_album.js"></script>
+          <!--<script type="text/javascript" src="../lightBox/js/jquery.lightbox-0.5.min.js"></script>-->
+          <script type="text/javascript" src="/core/fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
+          <script type="text/javascript" src="/core/fancybox/jquery.fancybox.pack.js"></script>
           <script type="text/javascript">
             $(document).ready(function(){
-              $('.box a').lightBox();
+              $('.box a').fancybox();
             });
           </script>
           <div class="row-fluid">
@@ -534,8 +543,8 @@
               $sql="SELECT `id`,`name_lang1` FROM `gallery` ORDER BY `num`";
               $result = $db->query($sql);
               $i=1;
-              while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
-                echo '<a href="index.php?content=album&id='.$row['id'].'">'.$i.' - '.$row['name_lang1'].'</a><br />';
+              while ($row = mysql_fetch_array($result)) {
+                echo '<a href="?content=album&id='.$row['id'].'">'.$i.' - '.$row['name_lang1'].'</a><br />';
                 $i++;
               }
               ?>
@@ -553,7 +562,7 @@
                 <tbody>
                   <?php
                     foreach($mas as $fileName){
-                      echo '<tr><td class="box"><a href="../../../gallery/'.$album_data['link'].'/'.$fileName.'"><img src="../../../gallery/'.$album_data['link'].'/thumbs/'.$fileName.'"></a></td>
+                      echo '<tr><td class="box"><a rel="foto" title="'.$fileName.'" href="../../../gallery/'.$album_data['link'].'/'.$fileName.'"><img src="../../../gallery/'.$album_data['link'].'/thumbs/'.$fileName.'"></a></td>
                       <td align="center">'.$fileName.'</td>
                       <td align="center"><a href="controller/foto_del.php?album='.$album_data['link'].'&name='.$fileName.'">Удалить</a></td></tr>';
                     }
@@ -571,7 +580,7 @@
               </form>
               <div class="well">
                 <script type="text/javascript">
-                  $(document).ready(function(){
+                  /*$(document).ready(function(){
                     $('#file_upload').uploadify({
                       'uploader'  : 'controller/uploadify/uploadify.swf',
                       'script'    : 'controller/foto_load.php?link=<?=$album_data['link']?>',
@@ -582,7 +591,7 @@
                       'fileDesc'  : 'Images (jpg, jpeg)',
                       'fileExt'   : '*.jpeg;*.jpg;*.JPG;'
                     });
-                  });
+                  });*/
                 </script>
                 <input id="file_upload" type="file" name="file_upload" />
               </div>
@@ -596,20 +605,20 @@
         break;
 // page_edit (all) ------------------------------------------------------------------------------
         case 'page_edit':
-          $id = $_GET['id'];
-          $sql="SELECT `lang1`,`lang2`,`text_lang1`,`text_lang2`,`link`, `edit_date` FROM `page` WHERE `id` = '".$id."'";
+          $id = intval($_GET['id']);
+          $sql = "SELECT `lang1`,`lang2`,`text_lang1`,`text_lang2`,`link`, `edit_date` FROM `page` WHERE `id` = '".$id."'";
           $result = $db->query($sql);
           while ($row = mysql_fetch_array($result)) {
             $text = array(
-              'lang1'=>$row['text_lang1'],
-              'lang2'=>$row['text_lang2']
+              'lang1' => htmlspecialchars_decode($row['text_lang1'], ENT_QUOTES),
+              'lang2' => htmlspecialchars_decode($row['text_lang2'], ENT_QUOTES)
             );
-            $name=array(
-              'lang1'=>$row['lang1'],
-              'lang2'=>$row['lang2']
+            $name = array(
+              'lang1' => htmlspecialchars_decode($row['lang1'], ENT_QUOTES),
+              'lang2' => htmlspecialchars_decode($row['lang2'], ENT_QUOTES)
             );
             $link = $row['link'];
-            $edit_date=$row['edit_date'];
+            $edit_date = $row['edit_date'];
           }
           include '../../fckeditor/fckeditor_php5.php';
             ?>
@@ -617,7 +626,7 @@
             <div class="span12">
               <div id="show_link">
                 <div>
-                  <a href="index.php?content=pages"><b>Страницы</b></a> <span class="muted"><b>></b></span><a href="../../<?=$link?>" target="_blank"><b><?=$name['lang1']?></b></a>
+                  <a href="?content=pages"><b>Страницы</b></a> <span class="muted"><b>></b></span><a href="../../<?=$link?>" target="_blank"><b><?=$name['lang1']?></b></a>
                   <div id="edit_date"><b>Дата изменения:</b> <span class="muted"><?=$edit_date?></span>
                   </div>
                 </div>
@@ -642,7 +651,7 @@
                 $result = $db->query($sql);
                 $i=1;
                 while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
-                  echo '<a href="index.php?content=page_edit&id='.$row['id'].'">'.$i.' - '.$row['lang1'].'</a><br />';
+                  echo '<a href="?content=page_edit&id='.$row['id'].'">'.$i.' - '.$row['lang1'].'</a><br />';
                   $i++;
                 }
               ?>
@@ -712,7 +721,7 @@
           <div class="row-fluid">
             <div class="span12">
               <div id="show_link">
-                <?php echo '<div><a href="index.php?content=news"><b>Новости</b></a> <span class="muted"><b>></b></span><a href="../../read_news.php?id='.$id.'"><b>'.$caption['lang1'].'</b></a>';?>
+                <?php echo '<div><a href="?content=news"><b>Новости</b></a> <span class="muted"><b>></b></span><a href="../../read_news.php?id='.$id.'"><b>'.$caption['lang1'].'</b></a>';?>
               </div>
             </div>
           </div><br />
@@ -724,7 +733,7 @@
                 $result = $db->query($sql);
                 $i=1;
                 while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-                  echo '<a href="index.php?content=news_edit&id='.$row['id'].'">'.$i.' - '.$row['caption_lang1'].'</a><br />';
+                  echo '<a href="?content=news_edit&id='.$row['id'].'">'.$i.' - '.$row['caption_lang1'].'</a><br />';
                   $i++;
                 }
               ?>
@@ -768,7 +777,7 @@
                 foreach ($mas as $val){?>
                   <div class="comment">
                     <div class="com_ava">
-                      <a href="O_polzovatele.php?login=<?php echo $val['users_login'];?>"><img src="../../<?php echo $val['users_ava'];?>" /></a>
+                      <a href="O_polzovatele.php?login=<?php echo $val['users_login'];?>"><img src="/avatars/<?php echo $val['users_ava'];?>" /></a>
                     </div>
                     <div class="com_name_date">
                       <a href="O_polzovatele.php?login=<?php echo $val['users_login'];?>">
@@ -776,9 +785,9 @@
                       </a> |
                       <span class="com_date"><?php echo $val['datetime'];?></span>
                     </div>
-                    <span class="com_del"><a href="controller/news_comment_del.php?id=<?php echo $val['id'];?>" class="news_comment_del"><img src="view/del.png"></a></span>
+                    <span class="com_del"><a href="controller/news_comment_del.php?id=<?php echo $val['id'];?>" class="news_comment_del"><i class="icon-trash"></i></a></span>
                     <form class="form" action="controller/news_comment_edit.php" method="post">
-                      <span class="com_text"><textarea rows="4" class="span7" name="text"><?php echo $val['text'];?></textarea></span>
+                      <span class="com_text"><textarea rows="4" class="span9" name="text"><?php echo $val['text'];?></textarea></span>
                       <input type="hidden" name="id" value="<?php echo $val['id'];?>"/>
                       <input type="submit" class="btn btn-success comm_news_submit" value="OK"/>
                     </form>

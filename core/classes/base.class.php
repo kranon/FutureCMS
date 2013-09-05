@@ -30,38 +30,40 @@ class DataBase{
         return mysql_close($this->connection);
     }
 	public static function query($sql){
-		$res=mysql_query($sql) or die(mysql_error());
+		$res = mysql_query($sql) or die(mysql_error());
 		return $res;
     }
 	// Очистка строк от "мусора"
     public static function ClearData($data){
-		$data=stripslashes($data);
-		$data=strip_tags($data);
-		$data=trim($data);
-		$data=mysql_real_escape_string($data);
-		if ($data=='') $data=null;
+		$data = stripslashes($data);
+		$data = strip_tags($data);
+		$data = trim($data);
+		$data = mysql_real_escape_string($data);
+		if ($data == ''){
+			$data = null;
+		}
 		return $data;
     }
     // Чтение списка новостей
-    public function ReadNews($col='',$lang){
+    public function ReadNews($col = '',$lang){
     	if($this->connection){
-			$sql="SELECT	`id`,
+			$sql = "SELECT	`id`,
 							`caption_".$lang."`,
 							`text_".$lang."`,
 							DATE_FORMAT(date,'%d.%m.%Y') AS date
 				FROM `news` ORDER BY `id` DESC;";
 			$result = self::query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-				$sql2="SELECT COUNT(`id`) as count FROM `news_comments` WHERE `news_id`=".$row['id'];
+			while ($row = mysql_fetch_array($result)){
+				$sql2 = "SELECT COUNT(`id`) as count FROM `news_comments` WHERE `news_id`=".$row['id'];
 				$res = self::query($sql2);
-				while ($row2 = mysql_fetch_array($res, MYSQL_BOTH)){
-					$count=$row2['count'];
+				while ($row2 = mysql_fetch_array($res)){
+					$count = $row2['count'];
 				}
 
-				$caption=$row['caption_'.$lang];
-				$mor['lang1']='Падрабязней';
-				$mor['lang2']='Подробней';
-				$news.='<div class="news">
+				$caption = $row['caption_'.$lang];
+				$mor['lang1'] = 'Падрабязней';
+				$mor['lang2'] = 'Подробней';
+				$news .= '<div class="news">
 				<a href="/news/'.$row['id'].'/"><h4 class="news_caption">'.$caption.'</h4></a>
 				<span class="news_date">'.$row['date'].'</span>
 				<span class="news_num_comments">Комментариев: '.$count.'</span>
@@ -74,15 +76,15 @@ class DataBase{
     // Добавление новости
     public function AddNews($caption){
     	if($this->connection){
-			$sql="INSERT INTO `news` (`caption_lang1` ,`date`)VALUES ('".$caption."', NOW());";
+			$sql = "INSERT INTO `news` (`caption_lang1` ,`date`)VALUES ('".$caption."', NOW());";
     		self::query($sql);
     	}
     }
     // Удаление новости
     public function DelNews($id){
     	if($this->connection){
-			$sql="DELETE FROM `news` WHERE `news`.`id` = ".$id;
-    		$result = self::query($sql);
+			$sql = "DELETE FROM `news` WHERE `news`.`id` = ".$id;
+    		$result  = self::query($sql);
     	}
     }
     // Изменение текста новости
@@ -100,33 +102,36 @@ class DataBase{
     // Чтение текста новости
     public function ReadNewsText($id, $lang){
     	if($this->connection){
-			$sql="SELECT `text_".$lang."` FROM `news` WHERE `id`=".$id;
-
-    		$result = self::query($sql);
-            while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-           		$news_text=$row[0];
-            }
-			return $news_text;
-    	}
-    }
+			$sql = "SELECT `text_".$lang."` FROM `news` WHERE `id`=".$id;
+			$result = self::query($sql);
+			if (mysql_num_rows($result) > 0){
+				while ($row = mysql_fetch_array($result)){
+					return $row[0];
+				}
+			}
+			else{
+				return 'Такой новости не существует!';
+			}
+		}
+	}
 	// Добавление комментария к новости
     public function commentAdd($newsId, $userId, $comment_text){
         if($this->connection){
-			$sql="INSERT INTO `news_comments` (`text` ,`news_id` ,`users_id`, `datetime`)VALUES ('".$comment_text."','".$newsId."','".$userId."',NOW());";
+			$sql = "INSERT INTO `news_comments` (`text` ,`news_id` ,`users_id`, `datetime`)VALUES ('".$comment_text."','".$newsId."','".$userId."',NOW());";
 			self::query($sql);
         }
     }
 	// Добавление комментария к новости
     public function commentEdit($id,$text){
         if($this->connection){
-			$sql="UPDATE `news_comments` SET `text` = '".$text."' WHERE `id`=".$id;
+			$sql = "UPDATE `news_comments` SET `text` = '".$text."' WHERE `id`=".$id;
 			self::query($sql);
         }
     }
 	// Чтение комментариев к новости
     public function commentRead($newsId){
         if($this->connection){
-			$sql="SELECT
+			$sql = "SELECT
 						`news_comments`.`id`,
 						`news_comments`.`text`,
 						`news_comments`.`news_id`,
@@ -138,8 +143,8 @@ class DataBase{
 					WHERE
 						`news_comments`.`news_id`=".$newsId."
 							AND `users`.`id`=`news_comments`.`users_id`;";
-			$res=self::query($sql);
-			while ($row = mysql_fetch_array($res, MYSQL_BOTH)){
+			$res = self::query($sql);
+			while ($row = mysql_fetch_array($res)){
            		$comment[] = array(
 					"id"			=> $row['id'],
 					"text"			=> $row['text'],
@@ -158,21 +163,21 @@ class DataBase{
 			$sql = "SELECT `id`,`num`,`link`,`".$lang."`,`in` FROM `menu` WHERE `published`='1' ORDER BY `num`;";
             $result = self::query($sql);
 			while ($row = mysql_fetch_array($result)){
-				$menu[$row['num']]=array(
-						'id'=>$row['id'],
-						'in'=>$row['in'],
-						'name'=>$row[$lang],
-						'link'=>$row['link']
+				$menu[$row['num']] = array(
+						'id'	=> $row['id'],
+						'in'	=> $row['in'],
+						'name'	=> $row[$lang],
+						'link'	=> $row['link']
 						);
 			}
 			// TODO: перенести в шаблон
 			foreach($menu as $val){
-					if ($val['in']==0){
+					if ($val['in'] == 0){
 						echo '<li class="menu"><a href="'.$val['link'].'" class="granat">'.$val['name'].'</a>';
 						echo '<ul>';
 						foreach ($menu as $val2){
-							if ($val2['in']!=0){
-								if ($val2['in']==$val['id']){
+							if ($val2['in'] != 0){
+								if ($val2['in'] == $val['id']){
 									echo '<li><a href="'.$val2['link'].'">'.$val2['name'].'</a></li>';
 								}
 							}
@@ -185,16 +190,16 @@ class DataBase{
     //добавление меню в БД
     public function MenuAdd($menu){
         if($this->connection){
-			$sql="SELECT `link` FROM `menu` WHERE `lang1`='".$menu['name']."'";
+			$sql = "SELECT `link` FROM `menu` WHERE `lang1`='".$menu['name']."'";
 			$result = self::query($sql);
-			if (mysql_num_rows($result)==0){
-				$sql="SELECT `num` FROM `menu` ORDER BY `num` DESC LIMIT 1";
+			if (mysql_num_rows($result) == 0){
+				$sql = "SELECT `num` FROM `menu` ORDER BY `num` DESC LIMIT 1";
 				$result = self::query($sql);
-				while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-					$next_num=$row[0]+1;
+				while ($row = mysql_fetch_array($result)){
+					$next_num = $row[0]+1;
 				}
 
-				$sql="INSERT INTO `menu` (
+				$sql = "INSERT INTO `menu` (
 									`num`,
 									`lang1`,
 									`link`,
@@ -207,7 +212,7 @@ class DataBase{
 									'".$menu['publ']."',
 									'".$menu['in']."')";
 				if ($result = self::query($sql)){
-                    echo '1';
+                    echo 'Меню создано';
                 }
 				else{
 					echo 'Ошибка запроса создания меню';
@@ -221,7 +226,7 @@ class DataBase{
     //удаление меню
     public function MenuDel($id){
         if($this->connection){
-			$sql="DELETE FROM `menu` WHERE `id` = ".$id;
+			$sql = "DELETE FROM `menu` WHERE `id` = ".$id;
             self::query($sql);
         }
     }
@@ -236,21 +241,14 @@ class DataBase{
     //удаление страницы
     public function PageDel($id){
 		if($this->connection){
-            // удаление файла страницы
-            $result = self::query("SELECT `link` FROM `page` WHERE `page`.`id` = ".$id);
-            while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-                unlink('../../../'.$row['link']) or die("Ошибка удаления файла!");
-            }
-            mysql_free_result($result);
-            // удаление страницы из базы
             $result = self::query("DELETE FROM `page` WHERE `id` = ".$id);
         }
     }
 	//Чтение данных страницы на беларуском
     public function ReadPageName($PageLink,$lang){
 		if($this->connection){
-            $sql="SELECT `".$lang."` FROM `page` WHERE `link` = '".$PageLink."'";
-			$result=self::query($sql);
+            $sql = "SELECT `".$lang."` FROM `page` WHERE `link` = '".$PageLink."'";
+			$result = self::query($sql);
 			while ($row = mysql_fetch_array($result)){
 				$pageData = $row[$lang];
 			}
@@ -260,8 +258,8 @@ class DataBase{
     //Проверка на существование страницы
     public function CheckPage($PageLink){
 		if($this->connection){
-            $sql="SELECT `id` FROM `page` WHERE `link` = '".$PageLink."'";
-			$result=self::query($sql);
+            $sql = "SELECT `id` FROM `page` WHERE `link` = '".$PageLink."'";
+			$result = self::query($sql);
 			if(mysql_num_rows($result)){
 				return true;
 			}
@@ -274,11 +272,11 @@ class DataBase{
 	//чтение переведённых стандартных слов на сайте
     public function WordsTranslate($lang){
 		if($this->connection){
-			$num=1;
-			$sql="SELECT `".$lang."` FROM `language`";
+			$num = 1;
+			$sql = "SELECT `".$lang."` FROM `language`";
 			$result = self::query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-				$word[$num]=$row[$lang];
+			while ($row = mysql_fetch_array($result)){
+				$word[$num] = $row[$lang];
 				$num++;
 			}
 			return $word;
@@ -287,7 +285,7 @@ class DataBase{
     // добавление текста на страницу
     public function AddText($page){
         if($this->connection){
-			$sql="UPDATE `page` SET
+			$sql = "UPDATE `page` SET
 								`lang1`='".$page['name']['lang1']."',
 								`lang2`='".$page['name']['lang2']."',
 								`text_lang1` = '".$page['text']['lang1']."',
@@ -300,10 +298,10 @@ class DataBase{
     // вывод текста на страницу
     public function TextRead($link, $lang){
        if($this->connection){
-			$sql="SELECT `text_".$lang."` FROM `page` WHERE `link` = '".$link."'";
+			$sql = "SELECT `text_".$lang."` FROM `page` WHERE `link` = '".$link."'";
             $result = self::query($sql);
             while ($row = mysql_fetch_array($result)){
-				$text=$row[0];
+				$text = $row[0];
             }
             mysql_free_result($result);
 			return $text;
@@ -312,9 +310,9 @@ class DataBase{
 
     public function GetAllGalleryYear(){
   		if($this->connection){
-			$sql="SELECT `album_year` FROM `gallery` GROUP by `album_year` ORDER BY `album_year`";
+			$sql = "SELECT `album_year` FROM `gallery` GROUP by `album_year` ORDER BY `album_year`";
 			$result = $this->query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
+			while ($row = mysql_fetch_array($result)){
 				$year[$row['album_year']] = $row['album_year'];
 			}
 			return $year;
@@ -324,39 +322,39 @@ class DataBase{
     // Чтение списка галерей
     public function GalleryRead($lang, $sort=''){
   		if($this->connection){
-			$textNumFoto=array(
-				'lang1'=>'Колькасць фотаздымкаў: ',
-				'lang2'=>'Количество фотографий: '
+			$textNumFoto = array(
+				'lang1' => 'Колькасць фотаздымкаў: ',
+				'lang2' => 'Количество фотографий: '
 			);
-			$date_lang=array(
-					'lang1'=>'Дата:',
-					'lang2'=>'Дата:'
+			$date_lang = array(
+					'lang1' => 'Дата:',
+					'lang2' => 'Дата:'
 				);
 			if (!$sort){
-				$sql="SELECT `id`,`name_".$lang."`,`link`,`date` FROM `gallery` ORDER BY `num`";
+				$sql = "SELECT `id`,`name_".$lang."`,`link`,`date` FROM `gallery` ORDER BY `num`";
 			}
 			else{
-				$sql="SELECT `id`,`name_".$lang."`,`link`,`date` FROM `gallery` WHERE album_year='".$sort."' ORDER BY `num`";
+				$sql = "SELECT `id`,`name_".$lang."`,`link`,`date` FROM `gallery` WHERE album_year='".$sort."' ORDER BY `num`";
 			}
             $result = $this->query($sql);
 			while ($row = mysql_fetch_array($result)){
-				$mas=$this->OpenAlbum($row['id'],'./');
-				$name=array(
-					'lang1'=>$row['name_lang1'],
-					'lang2'=>$row['name_lang2']
+				$mas = $this->OpenAlbum($row['id'],'./');
+				$name = array(
+					'lang1' => $row['name_lang1'],
+					'lang2' => $row['name_lang2']
 				);
 
-				$num=count($mas);
-				$gallery.='<div class="album">
-						<a href="/album/'.$row['id'].'/">';
+				$num = count($mas);
+				$gallery .= '<div class="album">
+						<a href="/galery/'.$row['id'].'/">';
 							if ($mas[0]){
-								$gallery.='<img src="/gallery/'.$row['link'].'/thumbs/'.$mas[0].'">';
+								$gallery .= '<img src="/gallery/'.$row['link'].'/thumbs/'.$mas[0].'">';
 							}
 							else{
-								$gallery.='<img src="/image/nopic.jpg">';
+								$gallery .= '<img src="/image/nopic.jpg">';
 							}
-				$gallery.='</a>
-						<a href="/album/'.$row['id'].'/" class="albumName">'.$name[$lang].'</a>
+				$gallery .= '</a>
+						<a href="/galery/'.$row['id'].'/" class="albumName">'.$name[$lang].'</a>
 						<p class="numberFoto">'.$textNumFoto[$lang].$num.'</p>
 						<p class="dateFoto">'.$date_lang[$lang].' '.$row['date'].'</p>
 					</div>';
@@ -368,14 +366,14 @@ class DataBase{
 	// Получение списка фотографий в папке альбома
     public function OpenAlbum($id,$dir){
 		if($this->connection){
-			$sql="SELECT `link` FROM `gallery` WHERE `id`=$id";
+			$sql = "SELECT `link` FROM `gallery` WHERE `id`=$id";
             $result = self::query($sql);
             while ($row = mysql_fetch_array($result)){
-                $link=$row['link'];
+                $link = $row['link'];
             }
             mysql_free_result($result);
             //Допустимые расширения файлов:
-            $CONF["file_types"] ='JPG|jpg|jpeg|png|bmp|gif';
+            $CONF["file_types"] = 'JPG|jpg|jpeg|png|bmp|gif';
             //Открываем директорию с фотографиями:
             $dh = opendir($dir.'gallery/'.$link.'/');
             //Читаем директорию:
@@ -397,7 +395,7 @@ class DataBase{
     // Удаление альбома
     public function AlbumDel($id){
         if($this->connection){
-			$sql="DELETE FROM `gallery` WHERE `id` = ".$id;
+			$sql = "DELETE FROM `gallery` WHERE `id` = ".$id;
             self::query($sql);
         }
     }
@@ -423,7 +421,7 @@ class DataBase{
 		return strtr($str,$tr);
     }
 	// Добавление нового пользователя
-    public function userAdd($login,$pass,$email,$ava="../avatars/default.png" ,$sex='men',$group=3){
+    public static function userAdd($login,$pass,$email,$ava="default.png" ,$sex='men',$group=3){
 		$sql="INSERT INTO `users` (
 							`login`,
 							`pass`,
@@ -447,8 +445,8 @@ class DataBase{
         if($this->connection){
             // удаление аватарки
             $result = self::query("SELECT `ava` FROM `users` WHERE `id` = ".$id);
-            while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
-                if (!($row['ava']=='../avatars/default.png')){
+            while ($row = mysql_fetch_array($result)){
+                if (!($row['ava'] == '../avatars/default.png')){
                     unlink("../../".$row['ava']);
                 }
             }
@@ -459,8 +457,8 @@ class DataBase{
 	// Изменение пароля пользователя
     public function EditPassword($login,$new_pass){
         if($this->connection){
-			$pass=sha1(sha1($pass).$login);
-            $sql="UPDATE `users` SET `pass`='".$pass."' WHERE `login` = '".$login."'";
+			$pass = sha1(sha1($pass).$login);
+            $sql = "UPDATE `users` SET `pass`='".$pass."' WHERE `login` = '".$login."'";
 			self::query($sql);
         }
     }
@@ -468,7 +466,7 @@ class DataBase{
     public function EditAvatar($login,$avatar){
         if($this->connection){
 
-			$sql="UPDATE `users` SET `ava`='".$avatar."' WHERE `login` = '".$login."'";
+			$sql = "UPDATE `users` SET `ava`='".$avatar."' WHERE `login` = '".$login."'";
 			self::query($sql);
         }
     }

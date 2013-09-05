@@ -1,7 +1,7 @@
 <?php
 include '../../classes/img_biper.class.php';
-// проверить входные данные!!!!!!
-$link=$_GET['link'];
+// TODO: проверить входные данные!!!!!!
+$link = $_GET['link'];
 
 $uploaddir = '../../../gallery/'.$link.'/';
 $thumb_dir = '../../../gallery/'.$link.'/thumbs/';
@@ -39,7 +39,7 @@ if (!empty($_FILES)){
 					}
 					$new_img->img_save($targetFile);
 				}
-				$thumb=new img_biper($targetThumb);
+				$thumb = new img_biper($targetThumb);
 				$thumb->img_resized(100, 'w');
 				$thumb->img_save($targetThumb);
 			}

@@ -1,8 +1,8 @@
 <?php
 # Добавление нового альбома #
 include '../../config.php';
-// проверить входные данные !!!!
-$name = $_POST['name'];
+// TODO: проверить входные данные !!!!
+$name = htmlspecialchars($_POST['name'], ENT_QUOTES);
 
 $link = $db->translitIt($name);
 
@@ -27,7 +27,7 @@ else{
 	mkdir('../../../gallery/'.$link.'/thumbs');
 }
 
-$sql="INSERT INTO `gallery` (`name_lang1`,`link`,`date`)VALUES ('".$name."','".$link."',NOW())";
+$sql = "INSERT INTO `gallery` (`name_lang1`,`link`,`date`)VALUES ('".$name."','".$link."',NOW())";
 $db->query($sql);
 
 echo '1';

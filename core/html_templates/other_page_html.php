@@ -7,28 +7,11 @@
 	<meta name="title" content="<?php echo $meta[$lang]['title'];?>" />
     <meta name="keywords" content="<?php echo $meta[$lang]['keywords'].', '.$name;?>" />
     <meta name="description" content="<?php echo $meta[$lang]['description'];?>" />
-	<link rel="stylesheet" href="/design/style.css" type="text/css" media="screen, projection" />
-	<link rel="stylesheet" href="/design/droppy.css" type="text/css" media="screen, projection" />
-    <link rel="stylesheet" href="/design/form_err.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="/design/style.css">
+    <link rel="stylesheet" type="text/css" href="/design/droppy.css">
 	<?php echo $style;?>
 	<script type="text/javascript" src="/core/js/jquery.js"></script>
-	<script type="text/javascript" src="/core/js/jquery.validate.js"></script>
-	<script type="text/javascript" src="/core/js/jquery.droppy.js"></script>
-	<script type="text/javascript">$(function(){$('#nav').droppy();});</script>
-	<script type="text/javascript" src="/core/js/auth_validate.js"></script>
-	<script type="text/javascript" src="/core/js/hs_authForm.js"></script>
 	<?php echo $script;?>
-	<script type="text/javascript">
-  /*var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-34514367-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();*/
-</script>
 </head>
 <body class="body">
 <table width="698"  cellspacing="0" cellpadding="0" align="center">

@@ -12,5 +12,10 @@ RewriteCond %{REQUEST_FILENAME} !-f
 # и не директория т. е. папка
 RewriteCond %{REQUEST_FILENAME} !-d
 
+#Redirect 301 /admin/ /core/admin_p/
+#RewriteRule ^admin/$  /core/admin_p/
+
+RewriteRule ^user/([a-z0-9]+)/$  /index.php?page=user&login=$1
+
 RewriteRule ^([^/]+)/$  /index.php?page=$1
 RewriteRule ^([^/]+)/([0-9]*)/$  /index.php?page=$1&id=$2

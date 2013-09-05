@@ -11,7 +11,7 @@ $(document).ready(function(){
 				if (this.sex=='men'){ sex='мужской'; }
 				else{ sex='женский'; }
 				//text+='<tr><td class="al_center">&nbsp;'+this.id+'&nbsp;</td><td class="al_center">&nbsp;'+this.login+'&nbsp;</td><td class="al_center"><a href="controller/genNewPass.php?login='+this.login+'" class="gen">Выслать новый пароль</a></td><td class="al_center">&nbsp;'+this.email+'&nbsp;</td><td class="al_center">&nbsp;'+sex+'&nbsp;</td><td class="al_center">&nbsp;'+this.group+'&nbsp;</td><td class="al_center">&nbsp;'+this.datreg+'&nbsp;</td><td class="al_center"><img src="../../'+this.ava+'" alt="аватар"></td><td class="al_center"><a href="controller/user_del.php?id='+this.id+'" class="del"><img src="view/del.png" /></td></tr>';
-				text +='<div class="user"><div class="user_foto"><img src="../../'+this.ava+'" class="img-polaroid img-rounded"></div><div class="data"><b>ID:</b> '+this.id+'<br /><b>Логин:</b> '+this.login+'<br /><b>E-mail:</b> '+this.email+'<br /><b>Дата регистрации:</b> '+this.datreg+'<br /></div><div class="user_del_but_kran"><a href="controller/user_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></a></div></div>'; 
+				text +='<div class="user"><div class="user_foto"><img src="/avatars/'+this.ava+'" class="img-polaroid img-rounded"></div><div class="data"><b>ID:</b> '+this.id+'<br /><b>Логин:</b> '+this.login+'<br /><b>E-mail:</b> '+this.email+'<br /><b>Дата регистрации:</b> '+this.datreg+'<br /></div><div class="user_del_but_kran"><a href="controller/user_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></a></div></div>'; 
 
 				users_count++;	
 				});
@@ -24,20 +24,20 @@ $(document).ready(function(){
 	function report(answer,message){
 		if (answer=='1'){
 				getCon();
-				$('#mess').html('<b>&nbsp;'+message+'&nbsp;</b>').show().fadeOut(1500);
+				$('#mess').html('<b>&nbsp;'+message+'&nbsp;</b>').show();//.fadeOut(1500);
 			}
 			else{
-				$('#mess').html('<b>&nbsp;'+answer+'&nbsp;</b>').show().fadeOut(5000);
+				$('#mess').html('<b>&nbsp;'+answer+'&nbsp;</b>').show();//.fadeOut(5000);
 			}
 	}
 	// Сохранение группы пользователя при выборе из списка
-	$('select').live('change',function(){
+	$(document).on('change','select',function(){
 		var data2=$('#user_inf').serialize();
 		$.post('controller/users_set.php',data2);
 	});
 	
 	// Сгенерировать новый пароль
-	$('.gen').live('click',function(evt){
+	$(document).on('click','.gen',function(evt){
 		var link=$(this).attr('href');
 		var querystr=link.slice(link.indexOf('?')+1);
 		$.get('controller/genNewPass.php',querystr,rep);
@@ -48,7 +48,7 @@ $(document).ready(function(){
 	});
 
 	// Удаление пользователя
-	$('.del').live('click',function(evt){
+	$(document).on('click','.del',function(evt){
 		var link=$(this).attr('href');
 		var querystr=link.slice(link.indexOf('?')+1);
 		$.get('controller/users_del.php',querystr,rep);

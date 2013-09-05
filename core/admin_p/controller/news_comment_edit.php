@@ -1,8 +1,8 @@
 <?php
 # Редактирование комментария к новости #
 include '../../config.php';
-$id=(int)$_POST['id'];
-$text=$_POST['text'];
+$id = intval($_POST['id']);
+$text = htmlspecialchars($_POST['text'], ENT_QUOTES);
 
 $db->commentEdit($id,$text);
 header('Location: '.$_SERVER['HTTP_REFERER']);

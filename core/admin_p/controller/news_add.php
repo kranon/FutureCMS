@@ -1,7 +1,7 @@
 <?php
 # Добавление новой новости #
 include '../../config.php';
-$caption = htmlspecialchars($_POST['caption'], ENT_QUOTES); // замена кавычек соответствующими html сущностями
+$caption = htmlspecialchars($_POST['caption'], ENT_QUOTES);
 $db->AddNews($caption);
 echo '1';
 ?>
