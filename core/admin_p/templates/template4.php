@@ -694,7 +694,7 @@
         <?php break;
 // news_edit (all) ------------------------------------------------------------------------------
         case 'news_edit':
-          $id=$_GET['id'];
+          $id = intval($_GET['id']);
           $sql="SELECT `caption_lang1`,`text_lang1`,`caption_lang2`,`text_lang2` FROM `news` WHERE `id` = ".$id.";";
           $result = $db->query($sql);
           while ($row = mysql_fetch_array($result)){
@@ -797,6 +797,55 @@
             </div>
           </div>
         <?php break;
+        case 'user_edit':
+          $login = $_GET['login'];
+          $sql = "SELECT `login`,`email`,`group`,'sex',`datreg`,`ava` FROM `users` WHERE `login`= '$login'";
+          $result = $db->query($sql);
+          while ($row = mysql_fetch_array($result)){
+            $user = $row;
+          }
+
+          $sql = "SELECT `id`, `lang1`, `lang2` FROM `role`";
+          $result = $db->query($sql);
+          while ($row = mysql_fetch_array($result)){
+            $rol[$row['id']] = $row['lang1'];
+            $all .= '<option value='.$row['id'].'>'.$row['lang1'].'</option>';
+          }
+          $num_mas = sizeof($rol);
+
+          $els = '';
+          for ($n = 1; $n <= $num_mas; $n++){
+            $now = '<option value='.$row['group'].'>'.$rol[$row['group']].'</option>';
+            if ($rol[$row['group']] != $rol[$n]){
+              $els .= '<option value='.$n.'>'.$rol[$n].'</option>';
+            }
+          }
+          $gr = '<select name='.$row['id'].'>'.$now.$els.'</select>';
+
+
+
+          if ($user['sex'] == 'men'){
+            $user['sex'] = 'Мужской';
+          }
+          else{
+            $user['sex'] = 'Женский';
+          }
+        ?>
+          <div class="row-fluid">
+            <div class="span2">
+              <img src="/avatars/<?=$user['ava']?>">
+            </div>
+            <div class="span8">
+              <b>Логин:</b> <?=$user['login']?> <br />
+              <b>E-mail:</b> <?=$user['email']?> <br />
+              <b>Пол:</b> <?=$user['sex']?> <br />
+              <b>Дата регистрации:</b> <?=$user['datreg']?> <br />
+              <b>Группа:</b> <?=$gr?> <br />
+              <a href="controller/genNewPass.php?login=<?=$user['login']?>">Сгенерировать новый пароль</a> <br />
+            </div>
+          </div>
+          
+        <?break;
         default :?>
         <div class="row-fluid">
           <div class="span12">

@@ -57,6 +57,11 @@ if (($group == '1') || ($group == '2')){
 			$header = 'Редактирование страницы:';
 			$edit_link = '<a href="<?php echo $link;?> ">Посмотреть страницу</a>';
 			break;
+		case 'user_edit':
+			$title .= 'Редактирование пользователя';
+			$header = 'Редактирование пользователя:';
+			/*$edit_link = '<a href="<?php echo $link;?> ">Посмотреть страницу</a>';*/
+			break;
 		case 'news_edit':
 			$title .= 'Редактирование новостей';
 			$header = 'Редактирование новости:';

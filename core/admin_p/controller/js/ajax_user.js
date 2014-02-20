@@ -11,7 +11,7 @@ $(document).ready(function(){
 				if (this.sex=='men'){ sex='мужской'; }
 				else{ sex='женский'; }
 				//text+='<tr><td class="al_center">&nbsp;'+this.id+'&nbsp;</td><td class="al_center">&nbsp;'+this.login+'&nbsp;</td><td class="al_center"><a href="controller/genNewPass.php?login='+this.login+'" class="gen">Выслать новый пароль</a></td><td class="al_center">&nbsp;'+this.email+'&nbsp;</td><td class="al_center">&nbsp;'+sex+'&nbsp;</td><td class="al_center">&nbsp;'+this.group+'&nbsp;</td><td class="al_center">&nbsp;'+this.datreg+'&nbsp;</td><td class="al_center"><img src="../../'+this.ava+'" alt="аватар"></td><td class="al_center"><a href="controller/user_del.php?id='+this.id+'" class="del"><img src="view/del.png" /></td></tr>';
-				text +='<div class="user"><div class="user_foto"><img src="/avatars/'+this.ava+'" class="img-polaroid img-rounded"></div><div class="data"><b>ID:</b> '+this.id+'<br /><b>Логин:</b> '+this.login+'<br /><b>E-mail:</b> '+this.email+'<br /><b>Дата регистрации:</b> '+this.datreg+'<br /></div><div class="user_del_but_kran"><a href="controller/user_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></a></div></div>'; 
+				text +='<div class="user"><div class="user_foto"><img src="/avatars/'+this.ava+'" class="img-polaroid img-rounded"></div><div class="data"><b>ID:</b> '+this.id+'<br /><b>Логин:</b> <a href="?content=user_edit&login='+this.login+'">'+this.login+'</a><br /><b>E-mail:</b> '+this.email+'<br /><b>Дата регистрации:</b> '+this.datreg+'<br /></div><div class="user_del_but_kran"><a href="controller/user_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></a></div></div>'; 
 
 				users_count++;	
 				});
