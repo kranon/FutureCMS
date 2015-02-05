@@ -4,7 +4,7 @@ include '../../config.php';
 $json = '';
 $sql = "SELECT `id`, `lang1`, `link`,`in_menu`,`edit_date` FROM `page` ORDER BY `lang1` ASC;";
 $result = $db->query($sql);
-while ($row = mysql_fetch_array($result)){
+while ($row = $db->fetch_array($result)){
 	$row['group'] = $_SESSION['group'];
     $json[] = $row;
 }

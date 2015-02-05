@@ -1,12 +1,6 @@
 <?php
 # класс авторизации, регистрации пользователей
 class Auth {
-
-/*public $a='var a =  class Auth';
-	public function getAFromDataBase(){
-		DataBase::getA();
-	}
-*/
 	protected function hex($str,$salt=null){
 		$hex_pass= sha1(sha1($str).$salt);
 		return $hex_pass;
@@ -14,7 +8,7 @@ class Auth {
 	public function validLogin($logn){
 		$logn=DataBase::clearData($logn);
 		if (isset($logn)){
-			if (!((preg_match('~^[a-z0-9_\-]*$~i', $logn))&((strlen($logn)>=3)&(strlen($logn)<16)))){
+			if (!((preg_match('~^[a-z0-9_\-]*$~i', $logn)) && ((strlen($logn)>=3) && (strlen($logn)<16)))){
 				$logn = null;
 				return false;
 			}
@@ -26,34 +20,34 @@ class Auth {
 			return false;
 		}
 	}
-	// Проверка валидности и повторности пароля 
+	// Проверка валидности и повторности пароля
 	public function validPass($pass,$ret_pass){
 		$pass=DataBase::clearData($pass);
 		$ret_pass=DataBase::clearData($ret_pass);
-		
-		if (isset($pass) & (strlen($pass)>5)&(strlen($pass)<12)){
-			if ($pass==$ret_pass){
+
+		if (isset($pass) && (strlen($pass) > 5) && (strlen($pass)<12)){
+			if ($pass == $ret_pass){
 				return true;
 			}
 			else{
-				$pass=null;
-				$ret_pass=null;
+				$pass = null;
+				$ret_pass = null;
 				return false;
 			}
 		}
 		else{
-			$pass=null;
-			$ret_pass=null;
+			$pass = null;
+			$ret_pass = null;
 			return false;
 		}
 	}
 	public function validEmail($email){
 		$email=DataBase::clearData($email);
-		
-		$valid_email = filter_var($email, FILTER_VALIDATE_EMAIL);  
+
+		$valid_email = filter_var($email, FILTER_VALIDATE_EMAIL);
 		if ($valid_email == false){
 			//echo $error->getError(5);
-			$email=null;
+			$email = null;
 			return false;
 		}
 		else{
@@ -63,15 +57,16 @@ class Auth {
 	// Проверка повторности логина и email
 	public function uniqueLoginEmail($logn,$email){
 		$sql="SELECT `login`, `email` FROM `users` WHERE `login`='".$logn."' OR email='".$email."'";
-		$result = mysql_query($sql);//DataBase::query($sql);
-		if (mysql_num_rows($result)>0){
+		$result = mysqli_query($sql);//DataBase::query($sql);
+		//$result = DataBase::query($sql);
+		if (mysqli_num_rows($result)>0){
 			return false;
 		}
 		else{
 			return true;
 		}
 	}
-	
+
 	public function register($user){
 		$logn	= $user['logn'];
 		$pass	= $user['pass'];
@@ -79,9 +74,9 @@ class Auth {
 		$sex	= $user['sex'];
 		$group	= $user['group'];
 		$ava	= $user['ava'];
-		
+
 		$hex_pass = $this->hex($pass,$logn);
-		
+
 		// Если аватар выбран
 		if ($ava['userfile']['name']){
 			// Загрузка аватарки
@@ -132,13 +127,13 @@ class Auth {
 	public function authorisation($logn, $pass){
 		$logn = DataBase::clearData($logn);
 		$pass = DataBase::clearData($pass);
-		
-		if (isset($logn) & isset($pass)){
+
+		if (isset($logn) && isset($pass)){
 			$pass = sha1(sha1($pass).$logn);
-				
+
 			$sql = "SELECT `login`,`pass` FROM `users` WHERE `login`='".$logn."' AND `pass`='".$pass."'";
 			$result = DataBase::query($sql);
-			if(mysql_num_rows($result) == 0){
+			if(mysqli_num_rows($result) == 0){
 				return false;
 			}
 			else{
@@ -162,9 +157,9 @@ class Auth {
 				<form class="form well" enctype="multipart/form-data" action="'.$action.'" method="post" name="reg_form" id="reg_form">
 				<input type="text" name="login" id="login" placeholder="'.$word[6].'">
 				<input type="password" name="pass" id="pass" placeholder="'.$word[7].'">
-				<input type="password" name="retype_pass" id="retype_pass" placeholder="'.$word[29].'">				
+				<input type="password" name="retype_pass" id="retype_pass" placeholder="'.$word[29].'">
 				<input type="text" name="email" id="email" placeholder="'.$word[8].'">
-				
+
 				<input type="file" name="userfile" id="userfile" placeholder="'.$word[9].'">
 				'.$word[10].'<br />
 				<input type="radio" name="sex" checked="checked" value="men"/> '.$word[11].'<br />

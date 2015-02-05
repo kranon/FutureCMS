@@ -1,12 +1,11 @@
 <?php
-// TODO: проверить входные данные
 $login = $db->ClearData($_GET['login']);
 
 if ($login){
 	$sql = "SELECT `login`,`ava`,`sex`,`group`,`email`,`datreg`,`role`.`id`,`role`.`".$lang."` FROM `users`,`role` WHERE `login`='".$login."' and `role`.`id` = `group`";
 	$result = $db->query($sql);
-	if (mysql_num_rows($result) > 0){
-		while ($row = mysql_fetch_array($result)){
+	if ($db->num_rows($result) > 0){
+		while ($row = $db->fetch_array($result)){
 			$form .= '<img src="/avatars/'.$row['ava'].'" alt="avatar" /> <br />
 			<b>'.$word[22].' </b>'.$row['login'].'<br />
 			<b>E-mail: </b>'.$row['email'].'<br />';

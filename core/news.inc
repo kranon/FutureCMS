@@ -2,10 +2,10 @@
 $news_id = intval($_GET['id']);
 
 if ($news_id <= 0){
-	$form .= $db->ReadNews('',$lang);
+	$form .= $db->ReadNews('', $lang);
 }
 else{
-	$form .= $db->ReadNewsText($news_id,$lang);
+	$form .= $db->ReadNewsText($news_id, $lang);
 	$form .= $error;
 
 	// Добавление комментария к новости
@@ -14,7 +14,7 @@ else{
 
 	if (($userId > 0) && ($newsId > 0)){
 		$comm_text = $db->clearData($_POST['comment_text']);
-		if (isset($comm_text) && ($comm_text!='')){
+		if (isset($comm_text) && ($comm_text != '')){
 			$db->commentAdd($newsId, $userId, $comm_text);
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit;
@@ -30,7 +30,7 @@ else{
 				<div class="com_name_date">
 				<a href="/user/'.$val['users_login'].'/">
 				<span class="com_username">'.$val['users_login'].'</span>
-				</a> | 
+				</a> |
 				<span class="com_date">'.$val['datetime'].'</span>
 				</div>
 				<span class="com_text">'.$val['text'].'</span>
@@ -43,7 +43,7 @@ else{
 	else{
 		$sql = "SELECT `id` FROM `users` WHERE `login`='".$_SESSION['login']."';";
 		$res = $db->query($sql);
-		while ($row = mysql_fetch_array($res)){
+		while ($row = $db->fetch_array($res)){
 			$curr_user_id = $row['id'];
 		}
 

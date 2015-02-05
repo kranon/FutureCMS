@@ -11,7 +11,7 @@ $num_mas = sizeof($rol);*/
 
 $sql = "SELECT `id`, `login`, `pass`, `email`, `sex`, `ava`, `group`, `datreg` FROM `users`";
 $result = $db->query($sql);
-while ($row = mysql_fetch_array($result)){
+while ($row = $db->fetch_array($result)){
 	/*$els = '';
 	for ($n = 1; $n <= $num_mas; $n++){
 		$now = '<option value='.$row['group'].'>'.$rol[$row['group']].'</option>';
@@ -20,7 +20,7 @@ while ($row = mysql_fetch_array($result)){
 		}
 	}
 	$gr = '<select name='.$row['id'].'>'.$now.$els.'</select>';
-	
+
 	$row['group'] = $gr;*/
 	$json[] = $row;
 }

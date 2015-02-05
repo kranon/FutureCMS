@@ -1,7 +1,7 @@
 <?php
 include 'classes/base.class.php';
-$db = new DataBase('localhost','root','root');
-$db->SelectDataBase('futurecms');
+$db = new DataBase('localhost', 'root', '', 'futurecms');
+//$db->SelectDataBase('futurecms');
 
 $site['lang1']['name'] = 'Сужэнскія сустрэчы';
 $site['lang1']['header'] = 'Сужэнскія сустрэчы';
@@ -19,6 +19,6 @@ $meta['lang2']['title'] = 'Супружеские встречи';
 $meta['lang2']['keywords'] = 'Супружеские встречи';
 $meta['lang2']['description'] = 'Супружеские встречи';
 
-// год - № недели - день недели
+// год . № недели . день недели
 $site['version'] = '13.36.5';
 ?>

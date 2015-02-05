@@ -24,14 +24,14 @@ if ($_POST['login']){
 	$auth = new auth();
 
 	if ($auth->validLogin($user['logn']) && $auth->validPass($user['pass'],$user['ret_pass']) && $auth->validEmail($user['email'])){
-		
+
 		if ($auth->uniqueLoginEmail($user['logn'], $user['email'])){
 			$auth->register($user);
 			if ($auth->authorisation($logn, $pass) == true){
 				$_SESSION['login'] = $logn;
 				$sql = "SELECT `ava`, `group` FROM `users` WHERE `login`='".$logn."'";
 				$res = $db->query($sql);
-				while ($row = mysql_fetch_array($res)){
+				while ($row = $db->fetch_array($res)){
 					$_SESSION['ava'] = $row['ava'];
 					$_SESSION['group'] = $row['group'];
 				}

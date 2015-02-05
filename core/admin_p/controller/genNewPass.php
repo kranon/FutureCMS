@@ -1,11 +1,11 @@
 <?php session_start();
 # Генерирование случайного пароля и отправка по на email пользователя
-if($_SESSION['group']==1){ 
+if($_SESSION['group'] == 1){
 	include '../../config.php';
 	if (isset($_GET['login'])){
-		$lgn=$_GET['login'];
-		if (!((preg_match('/^[a-zA-Z0-9_]+$/', $lgn))&((strlen($lgn)>=3)&(strlen($lgn)<16)))){
-			$lgn=NULL;
+		$lgn = $_GET['login'];
+		if (!((preg_match('/^[a-zA-Z0-9_]+$/', $lgn)) && ((strlen($lgn) >= 3) && (strlen($lgn) < 16)))){
+			$lgn = NULL;
 			echo 'Не корректный логин!';
 			return;
 		}
@@ -22,14 +22,14 @@ if($_SESSION['group']==1){
 				$pass .= $arr[$index];
 			}
 			$result = $db->query("SELECT `email` FROM `users` WHERE `login`='".$lgn."';");
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
+			while ($row = $db->fetch_array($result, MYSQL_BOTH)){
 				$email=$row['email'];
 			}
-			$mess="Новый пароль для входа на сайт http://gigienabar.by 
+			$mess = "Новый пароль для входа на сайт http://suvstrechi.by
 			Новый пароль: ".$pass."
 			Если вы не запрашивали новый пароль, просто удалите это сообщение.";
 			mail($email, "Новый пароль",$mess);
-			$hash_pass=sha1(sha1($pass).$lgn);
+			$hash_pass = sha1(sha1($pass).$lgn);
 			$db->query("UPDATE `users` SET `pass`='".$hash_pass."' WHERE `email`='".$email."';");
 			echo '1';
 		}

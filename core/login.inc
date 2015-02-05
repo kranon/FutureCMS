@@ -14,14 +14,19 @@ if ($_POST['login']){
 		$_SESSION['login'] = $logn;
 		$sql = "SELECT `ava`, `group` FROM `users` WHERE `login`='".$logn."'";
 		$res = $db->query($sql);
-		while ($row = mysql_fetch_array($res)){
+		if ($row = $db->fetch_array($res)){
 			$_SESSION['ava'] = $row['ava'];
 			$_SESSION['group'] = $row['group'];
+
+			if ($row['group'] == 1 || $row['group'] == 2){
+				$_SESSION['KCFINDER'] = array();
+				$_SESSION['KCFINDER']['disabled'] = false;
+			}
 		}
 	}
 	else{
 		$_SESSION['auth_error'] = $error->getError(7);
-	}   
+	}
 
 	$db->CloseDBConnection();
 	header('Location: ../core/admin_p/');
@@ -29,15 +34,14 @@ if ($_POST['login']){
 
 }
 else{
-	
 	$style = '<link rel="stylesheet" href="/design/form_err.css" type="text/css">';
 	$script = '<script type="text/javascript" src="/core/js/jquery.validate.js"></script>
 	<script type="text/javascript" src="/core/js/auth_validate.js"></script><script type="text/javascript" src="/design/autorize_validate.js"></script>';
 
 	if ($_SESSION['login'] != null){
 		$form.='<br /><div id="ava" align="center">
-			<a href="/O_polzovatele/?login='.$_SESSION['login'].'">
-			<img src="'.$_SESSION['ava'].'" alt="avatar"/>
+			<a href="/user/'.$_SESSION['login'].'/">
+			<img src="/avatars/'.$_SESSION['ava'].'" alt="avatar"/>
 			</a><br />'.$_SESSION['login'].'<br />
 			<a href="/core/logout.php">'.$word[4].'</a><br /><br />';
 		if (($_SESSION['group'] == '1') || ($_SESSION['group'] == '2')){

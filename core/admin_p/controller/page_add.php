@@ -8,16 +8,16 @@ $in_menu = $_POST['add_in_menu'];
 $sql = "SELECT `lang2` FROM `page` WHERE `lang2`= '".$name."'";
 $result = $db->query($sql);
 // Если страницы с таким именем не существует, то создаём новую
-if (mysql_num_rows($result) == 0){
+if (mysqli_num_rows($result) == 0){
 	if ($in_menu == 'on'){
 		$in_menu = 1;
 	}
 	else {
 		$in_menu = 0;
 	}
-		
+
 	$link = $db->translitIt($name);
-	
+
 	if ($in_menu == 1){
 		//добавление меню
 		$menu = array(

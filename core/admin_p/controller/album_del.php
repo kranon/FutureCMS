@@ -7,8 +7,8 @@ function RemoveDir($path){
             $dirHandle = opendir($path);
             while (false !== ($file = readdir($dirHandle))){
                 if ($file!='.' && $file!='..'){// исключаем папки с назварием '.' и '..'
-                    $tmpPath=$path.'/'.$file;
-                    chmod($tmpPath, 0777);
+                    $tmpPath = $path.'/'.$file;
+                    //chmod($tmpPath, 0777);
 
                     if (is_dir($tmpPath)){  // если папка
                         RemoveDir($tmpPath);
@@ -31,19 +31,21 @@ function RemoveDir($path){
         }
     }
 
-$id=(int)$_GET['id'];
-$sql="SELECT `link` FROM `gallery` WHERE `id`=".$id;
+$id = intval($_GET['id']);
+$sql = "SELECT `link` FROM `gallery` WHERE `id` = $id";
 $result = $db->query($sql);
-while ($row = mysql_fetch_array($result, MYSQL_BOTH)){
+while ($row = $db->fetch_array($result)){
 	$link = $row['link'];
 }
 
-if ($id){
+if ($link){
+    $DeletedFolder = $_SERVER['DOCUMENT_ROOT'].'/gallery_img/'.$link;
+    RemoveDir($DeletedFolder);
+}
+
+if ($id > 0){
 	$db->AlbumDel($id);
 }
-if ($link){
-	$DeletedFolder='/gallery/'.$link;
-	RemoveDir($_SERVER['DOCUMENT_ROOT'].$DeletedFolder);
-}
+
 echo '1';
 ?>

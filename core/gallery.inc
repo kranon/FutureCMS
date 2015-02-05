@@ -1,7 +1,6 @@
 <?php
-// TODO: проверить входные данные!!!!!
 $id = intval($_GET['id']);
-// TODO: сделать проверку наличия альбома
+
 if ($id > 0){
 	$script = '
 	<script type="text/javascript" src="/core/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
@@ -11,12 +10,12 @@ if ($id > 0){
 	$(document).ready(function(){
 		$("#gallery a").fancybox();
 	});</script>';
-	$style = 
+	$style =
 	'<link rel="stylesheet" href="/core/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="/design/lb_gallery.css"/>';
-	
-	$result = mysql_query("SELECT `name_".$lang."`,`link` FROM `gallery` WHERE `id`=".$id);
-	while ($row = mysql_fetch_array($result)){
+
+	$result = $db->query("SELECT `name_".$lang."`,`link` FROM `gallery` WHERE `id`=".$id);
+	while ($row = $db->fetch_array($result)){
 		$album = array(
 			'name' => $row['name_'.$lang],
 			'link' => $row['link']
@@ -29,8 +28,8 @@ if ($id > 0){
 		$form .= '<a href="/gallery/">Назад</a><br />';
 		$form .= '<div id="gallery">';
 		foreach($mas as $fileName){
-			$form .= '<a rel="album" href="/gallery/'.$album['link'].'/'.$fileName.'"><img src="/gallery/'.$album['link'].'/thumbs/'.$fileName.'"></a>';
-		}   
+			$form .= '<a rel="album" href="/gallery_img/'.$album['link'].'/'.$fileName.'"><img src="/gallery_img/'.$album['link'].'/thumbs/'.$fileName.'"></a>';
+		}
 		$form .= '</div>';
 	}
 }
@@ -45,8 +44,8 @@ else{
 		$str .='<a href="?year='.$year.'">'.$year.'</a>&nbsp;&nbsp;&nbsp; ';
 	}
 
-	$form .= $sort_word[$lang].': 
-	<a href="/galery/">'.$all[$lang].'</a>&nbsp;&nbsp;&nbsp;'.$str;
+	$form .= $sort_word[$lang].':
+	<a href="/gallery/">'.$all[$lang].'</a>&nbsp;&nbsp;&nbsp;'.$str;
 
 	$form .= $db->GalleryRead($lang,$year_sort);
 }

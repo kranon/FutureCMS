@@ -2,13 +2,16 @@
 $group = $_SESSION['group'];
 if (($group == '1') || ($group == '2')){
 	include '../config.php';
-	$content = $_GET['content'];
+	$content = '';
+	if (isset($_GET['content'])){
+		$content = $_GET['content'];
+	}
 	$logout = '<i class="icon-user icon-white"></i> '.$_SESSION['login'].' <a href="../logout.php">Выход</a>';
-	
+
 	$title = $site['lang1']['name'].' - ';
-	$footer = '<p>© 2010-'.date('Y').' Sobko Andrey E-mail: <a href="mailto:kranon@tut.by">kranon@tut.by</a><br />
+	$footer = '<p>© 2010-'.date('Y').' Andrey Sobko E-mail: <a href="mailto:kranon@tut.by">kranon@tut.by</a><br />
 		ver. '.$site['version'].'</p>';
-		
+
 	if ($group == '1'){
 		$menu = '<li><a href="?content=pages">Страницы</a></li>
 		<li><a href="?content=news">Новости</a></li>
@@ -38,7 +41,7 @@ if (($group == '1') || ($group == '2')){
 			break;
 		case 'users':
 			$title .= 'Настройка пользователей';
-			$header = 'Пользователи';
+			$header = 'Список пользователей';
 			break;
 		case 'gallery':
 			$title .= 'Настройка галереи';
