@@ -35,7 +35,7 @@
 	// вывод результата действий при сохранений
 	function report(answer,message){
 		if (answer == 1){
-				getCon();
+				getCon(1);
 				$('#mess').html('<b>&nbsp;'+message+'&nbsp;</b>').show().fadeOut(1500);
 			}
 			else{
