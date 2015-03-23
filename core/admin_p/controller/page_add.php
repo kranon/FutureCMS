@@ -2,7 +2,7 @@
 # Добавление новой страницы и меню для перехода на неё #
 include '../../config.php';
 
-$in_menu = 0;
+$in_menu = 'no';
 $name = htmlspecialchars($_POST['name'], ENT_QUOTES);
 if (isset($_POST['add_in_menu'])){
 	$in_menu = $_POST['add_in_menu'];
@@ -12,7 +12,7 @@ $sql = "SELECT `lang2` FROM `page` WHERE `lang2`= '".$name."'";
 $result = $db->query($sql);
 // Если страницы с таким именем не существует, то создаём новую
 if ($db->num_rows($result) == 0){
-	if ($in_menu == 'on'){
+	if ($in_menu == 'on' && $in_menu != 'no'){
 		$in_menu = 1;
 	}
 	else {

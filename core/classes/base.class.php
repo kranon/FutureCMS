@@ -218,7 +218,6 @@ class DataBase{
 				$sql = "SELECT `num` FROM `menu` ORDER BY `num` DESC LIMIT 1";
 				$result = self::query($sql);
 				while ($row = $this->fetch_array($result)){
-					echo '<pre>'; print_r($row); echo '</pre>';
 					$next_num = $row['num']+1;
 				}
 
@@ -382,7 +381,6 @@ class DataBase{
 								`link` = '".$page['link']."',
 								`edit_date` = NOW()
 					WHERE `id` = ".$page['id'];
-			//echo '<pre>'; print_r($sql); echo '</pre>';
 			self::query($sql);
 		}
 	}
