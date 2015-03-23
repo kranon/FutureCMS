@@ -30,7 +30,7 @@ if ($row = $db->fetch_array($result)){
 			'published'	=> 1,
 			'in'		=> 0,
 		);
-		$db->MenuAdd($menu);
+		$db->MenuAdd($menu, 'N');
 	}
 	echo '1';
 }

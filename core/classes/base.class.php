@@ -210,7 +210,7 @@ class DataBase{
 		}
 	}
 	//добавление меню в БД
-	public function MenuAdd($menu){
+	public function MenuAdd($menu, $show_mess = 'Y'){
 		if(self::$connection){
 			$sql = "SELECT `link` FROM `menu` WHERE `lang1`='".$menu['name']."'";
 			$result = self::query($sql);
@@ -234,14 +234,20 @@ class DataBase{
 									'".$menu['published']."',
 									'".$menu['in']."')";
 				if ($result = self::query($sql)){
-					echo 'Меню создано';
+					if ($show_mess == 'Y'){
+						echo 'Меню создано';
+					}
 				}
 				else{
-					echo 'Ошибка запроса создания меню';
+					if ($show_mess == 'Y'){
+						echo 'Ошибка запроса создания меню';
+					}
 				}
 			}
 			else{
-				echo 'Такое меню уже существует!';
+				if ($show_mess == 'Y'){
+					echo 'Такое меню уже существует!';
+				}
 			}
 		}
 	}
@@ -371,6 +377,7 @@ class DataBase{
 	}
 	// добавление текста на страницу
 	public function AddText($page){
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/text.txt', print_r($page['access'],1));
 		if(self::$connection){
 			$sql = "UPDATE `page` SET
 								`lang1`='".$page['name']['lang1']."',
