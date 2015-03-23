@@ -34,8 +34,6 @@ $footer = $site[$lang]['footer'];
 
 $word = $db->WordsTranslate($lang);
 
-echo '<pre>'; print_r($_REQUEST); echo '</pre>';
-
 if (!$db->CheckPage($link)){
 	// Системные страницы
 	switch ($link){
