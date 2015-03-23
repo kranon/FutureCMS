@@ -21,12 +21,7 @@ class DataBase{
 		$connection = mysqli_connect($this->host, $this->user, $this->pass, $this->db_name) or die("could not connect to DB");
 		return $connection;
 	}
-	// Выбор базы данных
-	/*public function SelectDataBase($db_name){
-		if(self::$connection){
-			mysql_select_db($db_name) or die(mysql_error());
-		}
-	}*/
+
 	// Закрытие MySQl
 	public function CloseDBConnection(){
 		return mysqli_close(self::$connection);
@@ -56,6 +51,18 @@ class DataBase{
 		}
 		return $data;
 	}
+
+	public function GetRoles($lang = 'lang2'){
+		if(self::$connection){
+			$roles = array();
+			$sql = "SELECT `id`, `$lang` FROM `role` ORDER BY `id` ASC;";
+			$result = self::query($sql);
+			while ($row = $this->fetch_array($result)){
+				$roles[$row['id']] = $row[$lang];
+			}
+		}
+		return $roles;
+	}
 	// Чтение списка новостей
 	public function ReadNews($col = '',$lang){
 		if(self::$connection){
@@ -64,7 +71,7 @@ class DataBase{
 							`text_".$lang."`,
 							DATE_FORMAT(date,'%d.%m.%Y') AS date
 				FROM `news` ORDER BY `id` DESC;";
-			$result = self::query($sql, self::$connection);
+			$result = self::query($sql);
 			while ($row = $this->fetch_array($result)){
 				$sql2 = "SELECT COUNT(`id`) as count FROM `news_comments` WHERE `news_id`=".$row['id'];
 				$res = self::query($sql2);
@@ -211,7 +218,8 @@ class DataBase{
 				$sql = "SELECT `num` FROM `menu` ORDER BY `num` DESC LIMIT 1";
 				$result = self::query($sql);
 				while ($row = $this->fetch_array($result)){
-					$next_num = $row[0]+1;
+					echo '<pre>'; print_r($row); echo '</pre>';
+					$next_num = $row['num']+1;
 				}
 
 				$sql = "INSERT INTO `menu` (
@@ -224,7 +232,7 @@ class DataBase{
 									".$next_num.",
 									'".$menu['name']."',
 									'".$menu['link']."',
-									'".$menu['publ']."',
+									'".$menu['published']."',
 									'".$menu['in']."')";
 				if ($result = self::query($sql)){
 					echo 'Меню создано';
@@ -245,6 +253,7 @@ class DataBase{
 			self::query($sql);
 		}
 	}
+
 	// Изменение имени меню (не задействовано!!!)
 	public function MenuNameEd($id,$name){
 		if(self::$connection){
@@ -271,6 +280,37 @@ class DataBase{
 				$data['edit_date'] = $row['edit_date'];
 			}
 			return $data;
+		}
+	}
+
+	public function GetPageAccess($id){
+		if(self::$connection){
+			$sql = "SELECT `access` FROM `page` WHERE `id` = '".$id."';";
+			$result = self::query($sql);
+			if ($row = $this->fetch_array($result)) {
+				$data = unserialize($row['access']);
+			}
+			return $data;
+		}
+	}
+
+	public function CheckPageAccess($group_id, $access){
+		if (in_array($group_id, $access) || in_array('all', $access)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function GetPageIDbyLink($link){
+		if(self::$connection){
+			$sql = "SELECT `id` FROM `page` WHERE `link` = '".$link."';";
+			$result = self::query($sql);
+			if ($row = $this->fetch_array($result)) {
+				$id = $row['id'];
+			}
+			return $id;
 		}
 	}
 
@@ -336,20 +376,32 @@ class DataBase{
 			$sql = "UPDATE `page` SET
 								`lang1`='".$page['name']['lang1']."',
 								`lang2`='".$page['name']['lang2']."',
+								`access` = '".serialize($page['access'])."',
 								`text_lang1` = '".$page['text']['lang1']."',
 								`text_lang2` = '".$page['text']['lang2']."',
+								`link` = '".$page['link']."',
 								`edit_date` = NOW()
 					WHERE `id` = ".$page['id'];
+			//echo '<pre>'; print_r($sql); echo '</pre>';
 			self::query($sql);
 		}
 	}
+
 	// вывод текста на страницу
-	public function TextRead($link, $lang){
+	public function TextRead($link, $lang, $user_group = false){
 	   if(self::$connection){
-			$sql = "SELECT `text_".$lang."` FROM `page` WHERE `link` = '".$link."'";
+	   		$text = '';
+			$sql = "SELECT `text_$lang`, `access` FROM `page` WHERE `link` = '$link';";
 			$result = self::query($sql);
 			while ($row = $this->fetch_array($result)){
-				$text = html_entity_decode($row[0]);
+				// если указана группа пользователя, то проверяем доступ к странице
+				$access = unserialize($row['access']);
+				if ($user_group && $this->CheckPageAccess($user_group, $access)){
+					$text = html_entity_decode($row['text_'.$lang]);
+				}
+				elseif($this->CheckPageAccess('all', $access)){
+					$text = html_entity_decode($row['text_'.$lang]);
+				}
 			}
 			mysqli_free_result($result);
 			return $text;
@@ -364,6 +416,32 @@ class DataBase{
 				$year[$row['album_year']] = $row['album_year'];
 			}
 			return $year;
+		}
+	}
+
+	public function GetGalleryImgSize(){
+		if(self::$connection){
+			$sql = "SELECT `gallery_img_width`, `gallery_img_height` FROM `settings`";
+			$result = $this->query($sql);
+			if ($row = $this->fetch_array($result)){
+				$size = array(
+					'width' => $row['gallery_img_width'],
+					'height' => $row['gallery_img_height'],
+				);
+			}
+			return $size;
+		}
+	}
+
+	public function GetFeedbackEmails(){
+		if(self::$connection){
+			$email = false;
+			$sql = "SELECT `feedback_emails` FROM `settings`";
+			$result = $this->query($sql);
+			if ($row = $this->fetch_array($result)){
+				$emails = $row['feedback_emails'];
+			}
+			return $emails;
 		}
 	}
 
@@ -386,7 +464,7 @@ class DataBase{
 			}
 			$result = $this->query($sql);
 			while ($row = $this->fetch_array($result)){
-				$mas = $this->OpenAlbum($row['id'],'./');
+				$mas = $this->OpenAlbum($row['id']);
 				$name = array(
 					'lang1' => $row['name_lang1'],
 					'lang2' => $row['name_lang2']
@@ -396,13 +474,13 @@ class DataBase{
 				$gallery .= '<div class="album">
 						<a href="/gallery/'.$row['id'].'/">';
 							if ($mas[0]){
-								$gallery .= '<img src="/gallery_img/'.$row['link'].'/thumbs/'.$mas[0].'">';
+								$gallery .= '<img src="/gallery_img/'.$row['link'].'/thumbs/'.$mas[0]['link'].'">';
 							}
 							else{
 								$gallery .= '<img src="/image/nopic.jpg">';
 							}
 				$gallery .= '</a>
-						<a href="/gallery_img/'.$row['id'].'/" class="albumName">'.$name[$lang].'</a>
+						<a href="/gallery/'.$row['id'].'/" class="albumName">'.$name[$lang].'</a>
 						<p class="numberFoto">'.$textNumFoto[$lang].$num.'</p>
 						<p class="dateFoto">'.$date_lang[$lang].' '.$row['date'].'</p>
 					</div>';
@@ -414,31 +492,11 @@ class DataBase{
 	// Получение списка фотографий в папке альбома
 	public function OpenAlbum($id){
 		if(self::$connection){
-			$sql = "SELECT `link` FROM `gallery` WHERE `id` = $id";
+			$files = '';
+			$sql = "SELECT `id`, `link`, `sort` FROM `gallery_img` WHERE `album_id` = $id ORDER BY `sort` ASC";
 			$result = self::query($sql);
 			while ($row = $this->fetch_array($result)){
-				$link = $row['link'];
-			}
-			mysqli_free_result($result);
-			//Допустимые расширения файлов:
-			$CONF["file_types"] = 'JPG|jpg|jpeg|png|bmp|gif';
-			$files = array();
-			//Открываем директорию с фотографиями:
-			if (file_exists($_SERVER['DOCUMENT_ROOT'].'/gallery_img/'.$link.'/')){
-				$dh = opendir($_SERVER['DOCUMENT_ROOT'].'/gallery_img/'.$link.'/');
-				//Читаем директорию:
-				while($fname = readdir($dh)){
-					//Находим расширение файла :
-					$file_array = explode('.', $fname);
-					$num = count($file_array);
-					$fileres = $file_array[($num - 1)];
-					//Доступные расширения:
-					$file_types = explode("|", $CONF['file_types']);
-					//Если присутсвует файл с таким расширением, то вносим его в массив:
-					if(in_array($fileres, $file_types)){
-						$files[] = $fname;
-					}
-				}
+				$files[] = $row;
 			}
 			return $files;
 		}
@@ -471,14 +529,17 @@ class DataBase{
 		);
 		return strtr($str,$tr);
 	}
+
 	// Добавление нового пользователя
-	public static function userAdd($login,$pass,$email,$ava="default.png" ,$sex='men',$group=3){
-		$sql="INSERT INTO `users` (
+	public static function userAdd($login, $pass, $email, $name = '', $last_name = '', $ava = "default.png" ,$sex = 'men',$group = 3){
+		$sql = "INSERT INTO `users` (
 							`login`,
 							`pass`,
 							`email`,
 							`ava`,
 							`sex`,
+							`name`,
+							`last_name`,
 							`datreg`,
 							`group`)
 					VALUES (
@@ -487,18 +548,39 @@ class DataBase{
 							'".$email."',
 							'".$ava."',
 							'".$sex."',
+							'".$name."',
+							'".$last_name."',
 							NOW(),
 							'".$group."')";
 		self::query($sql);
 	}
+
+	public static function userUpdate($data){
+		$data2 = '';
+		foreach ($data as $key => $value) {
+			if ($key == 'id' || $key == 'user_id'){
+				continue;
+			}
+			$data2[] = "`".$key."` = '".$value."'";
+		}
+		$data2 = implode(',', $data2);
+
+		$sql = "UPDATE `users` SET ".$data2." WHERE `id` = ".$data['user_id'];
+		self::query($sql);
+	}
+
 	// Удаление пользователя
 	public function userDel($id){
-		if(self::$connection){
+		$id = intval($id);
+		if(self::$connection && $id > 0){
 			// удаление аватарки
-			$result = self::query("SELECT `ava` FROM `users` WHERE `id` = ".$id);
+			$result = self::query("SELECT `ava` FROM `users` WHERE `id` = '".$id."'");
 			while ($row = $this->fetch_array($result)){
-				if (!($row['ava'] == '../avatars/default.png')){
-					unlink("../../".$row['ava']);
+				if (!($row['ava'] == 'default.png')){
+					$file_path = $_SERVER['DOCUMENT_ROOT'].'/avatars/'.$row['ava'];
+					if (file_exists($file_path)){
+						unlink($file_path);
+					}
 				}
 			}
 			// удаление пользователя из базы

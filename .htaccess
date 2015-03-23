@@ -1,5 +1,5 @@
 # Включаем mod_rewrite
-ErrorDocument 404 /404.php
+ErrorDocument 404 /index.php?page=404
 
 Options +FollowSymLinks
 
@@ -9,11 +9,11 @@ RewriteBase /
 # если REQUEST_FILENAME не является файлом
 RewriteCond %{REQUEST_FILENAME} !-f
 
-# и не директория т. е. папка
+# и не директория т.е. папка
 RewriteCond %{REQUEST_FILENAME} !-d
 
-#Redirect 301 /admin/ /core/admin_p/
-#RewriteRule ^admin/$  /core/admin_p/
+RewriteCond user/([a-z0-9]+)/%{QUERY_STRING} lang=(.+)
+RewriteRule ^user/([a-z0-9]+)/$ index.php?page=user&login=$1&lang=%1
 
 RewriteRule ^user/([a-z0-9]+)/$  /index.php?page=user&login=$1
 

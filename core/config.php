@@ -1,7 +1,6 @@
 <?php
 include 'classes/base.class.php';
 $db = new DataBase('localhost', 'root', '', 'futurecms');
-//$db->SelectDataBase('futurecms');
 
 $site['lang1']['name'] = 'Сужэнскія сустрэчы';
 $site['lang1']['header'] = 'Сужэнскія сустрэчы';

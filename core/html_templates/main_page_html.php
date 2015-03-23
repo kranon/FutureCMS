@@ -9,14 +9,11 @@
 	<meta name="description" content="<?php echo $meta[$lang]['description'];?>" />
 	<link rel="stylesheet" href="/design/style.css" type="text/css" media="screen, projection" />
 	<link rel="stylesheet" href="/design/droppy.css" type="text/css" media="screen, projection" />
-	<link rel="stylesheet" href="/design/form_err.css" type="text/css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="/design/fancybox/jquery.fancybox.css">
 	<?php echo $style;?>
 	<script type="text/javascript" src="/core/js/jquery.js"></script>
-	<script type="text/javascript" src="/core/js/jquery.validate.js"></script>
-	<script type="text/javascript" src="/core/js/jquery.droppy.js"></script>
-	<script type='text/javascript'>$(function(){$('#nav').droppy();});</script>
-	<script type="text/javascript" src="/core/js/auth_validate.js"></script>
-	<script type='text/javascript' src="/core/js/hs_authForm.js"></script>
+	<script type="text/javascript" src="/design/fancybox/jquery.fancybox.pack.js"></script>
+	<script type="text/javascript" src="/design/scripts.js" type="text/javascript"></script>
 	<?php echo $script;?>
 	<script type="text/javascript">
 	/*var _gaq = _gaq || [];
@@ -35,8 +32,8 @@
 	<tr>
 		<td colspan="2" class="td_top">
 			<div id="lang">
-				<a href="/core/lang1.php"><img src="/design/by.png" border="0"></a>
-				<a href="/core/lang2.php"><img src="/design/ru.gif" border="0"></a>
+				<a href="?lang=lang1"><img src="/design/by.png" border="0"></a>
+				<a href="?lang=lang2"><img src="/design/ru.gif" border="0"></a>
 			</div>
 			<div id="link_l"></div>
 			<script type="text/javascript">insertSwf('/design/animkaru.swf', 698, 178);</script>

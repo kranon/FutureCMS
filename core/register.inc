@@ -7,7 +7,9 @@ if ($_POST['login']){
 
 	$logn		= $_POST['login'];
 	$pass		= $_POST['pass'];
-	$ret_pass   = $_POST['retype_pass'];
+	$ret_pass 	= $_POST['retype_pass'];
+	$name 		= $_POST['name'];
+	$last_name	= $_POST['last_name'];
 	$email		= $_POST['email'];
 	$sex		= $_POST['sex'];
 	$ava		= $_FILES;
@@ -16,6 +18,8 @@ if ($_POST['login']){
 		'logn'		=> $logn,
 		'pass'		=> $pass,
 		'ret_pass'	=> $ret_pass,
+		'name'		=> $name,
+		'last_name'	=> $last_name,
 		'email'		=> $email,
 		'sex'		=> $sex,
 		'ava'		=> $ava
@@ -25,9 +29,9 @@ if ($_POST['login']){
 
 	if ($auth->validLogin($user['logn']) && $auth->validPass($user['pass'],$user['ret_pass']) && $auth->validEmail($user['email'])){
 
-		if ($auth->uniqueLoginEmail($user['logn'], $user['email'])){
-			$auth->register($user);
-			if ($auth->authorisation($logn, $pass) == true){
+		if ($auth->uniqueLoginEmail($user['logn'], $user['email'], $db)){
+			$auth->register($user, $db);
+			if ($auth->authorisation($logn, $pass, $db) == true){
 				$_SESSION['login'] = $logn;
 				$sql = "SELECT `ava`, `group` FROM `users` WHERE `login`='".$logn."'";
 				$res = $db->query($sql);

@@ -5,7 +5,9 @@ include '../../config.php';
 $id = intval($_POST['id']);
 
 $page = array(
-	'id' => $id,
+	'id'	=> $id,
+	'link'	=> strtolower(strip_tags($_POST['link'])),
+	'access' => $_POST['access'],
 	'name' => array(
 		'lang1' => htmlspecialchars($_POST['name_lang1'], ENT_QUOTES),
 		'lang2' => htmlspecialchars($_POST['name_lang2'], ENT_QUOTES)
@@ -17,7 +19,6 @@ $page = array(
 );
 
 $db->AddText($page);
-
 $db->CloseDBConnection();
 header('Location: ../?content=page_edit&id='.$id);
 exit;

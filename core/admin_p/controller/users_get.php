@@ -1,27 +1,32 @@
 <?php
 include '../../config.php';
-$json = '';
-/*$sql = "SELECT `id`, `lang1`, `lang2` FROM `role`";
-$result = $db->query($sql);
-while ($row = mysql_fetch_array($result)){
-	$rol[$row['id']] = $row['lang1'];
-	$all .= '<option value='.$row['id'].'>'.$row['lang1'].'</option>';
-}
-$num_mas = sizeof($rol);*/
 
-$sql = "SELECT `id`, `login`, `pass`, `email`, `sex`, `ava`, `group`, `datreg` FROM `users`";
+$json = '';
+
+$rol = $db->GetRoles();
+
+$page = intval($_GET['page']);
+$count = intval($_GET['count']);
+
+$page = ($page - 1) * $count;
+
+$sql = "SELECT `id` FROM `users` ORDER BY `id` ASC";
+$result = $db->query($sql);
+$users_count = $db->num_rows($result);
+$json[]['pages_count'] = ceil( $users_count / $count);
+$json[]['users_count'] = $users_count;
+
+
+$sql = "SELECT `id`, `login`, `pass`, `email`, `sex`, `ava`, `group`, `datreg` FROM `users` ORDER BY `id` DESC LIMIT $page, $count;";
 $result = $db->query($sql);
 while ($row = $db->fetch_array($result)){
-	/*$els = '';
-	for ($n = 1; $n <= $num_mas; $n++){
-		$now = '<option value='.$row['group'].'>'.$rol[$row['group']].'</option>';
-		if ($rol[$row['group']] != $rol[$n]){
-			$els .= '<option value='.$n.'>'.$rol[$n].'</option>';
-		}
+	if (isset($rol[$row['group']])){
+		$row['group'] = $rol[$row['group']];
 	}
-	$gr = '<select name='.$row['id'].'>'.$now.$els.'</select>';
+	else{
+		$row['group'] = 'Пользователь';
+	}
 
-	$row['group'] = $gr;*/
 	$json[] = $row;
 }
 $db->CloseDBConnection();

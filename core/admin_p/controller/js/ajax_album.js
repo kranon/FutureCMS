@@ -12,14 +12,28 @@ function getPhoto(){
 				var photo = jQuery.parseJSON(msg);
 				var photo_count = photo.length;
 				$.each(photo, function(){
-					text += '<tr><td class="box"><a rel="foto" title="'+this+'" href="/gallery_img/'+album_link+'/'+this+'"><img src="/gallery_img/'+album_link+'/thumbs/'+this+'"></a></td><td align="center">'+this+'</td><td align="center"><a class="del" href="controller/foto_del.php?album='+album_link+'&name='+this+'"><i class="icon-trash"></i></a></td></tr>';
-
+					text += '<li class="ui-state-default well" id="'+this.id+'"><div class="image box"><a rel="foto" title="'+this.link+'" href="/gallery_img/'+album_link+'/'+this.link+'"><img src="/gallery_img/'+album_link+'/thumbs/'+this.link+'" class=""></a></div> <span>'+this.link+'</span><a class="del" href="controller/foto_del.php?album='+album_link+'&name='+this.link+'&photo_id='+this.id+'"><i class="icon-trash"></i></a></li>';
 				});
-				console.log(text);
+
 				$('.photo_content').show();
 				$('.messages').hide();
-				$('#photo_list').html(text);
 				$('.photo_count').html(photo_count);
+
+				$('#photo_list').html('<ul id="sortable">'+text+'</ul>');
+
+				$(function(){
+				  $("#sortable").sortable({
+				    opacity: 0.7,
+					axis: 'y',
+					update: function(event, ui) {
+						var ser = $(this).sortable('toArray');
+						$.post('controller/foto_sort.php?sort='+ser, rep);
+						function rep(mess){
+							report(mess,'Сохранено!');
+						}
+					}
+					});
+				});
 			}
 			else{
 				$('.photo_content').hide();
@@ -29,10 +43,8 @@ function getPhoto(){
 	});
 }
 
-$(document).ready(function(){
-	getPhoto();
-	// вывод результата действий при сохранений
-	function report(answer,message){
+// вывод результата действий при сохранений
+	function report(answer, message){
 		if (answer == 1){
 			$('#mess').html('<b>'+message+'</b>').show().fadeOut(2500);
 		}
@@ -40,6 +52,9 @@ $(document).ready(function(){
 			$('#mess').html('<b>'+answer+'</b>').show().fadeOut(5000);
 		}
 	}
+
+$(document).ready(function(){
+	getPhoto();
 
 	// При изменении text сохраняется его значение
 	$(document).on('change','#edit_album :text',function(){
@@ -53,8 +68,6 @@ $(document).ready(function(){
 	$(document).on('click','.del',function(){
 		if (confirm("Вы действительно хотите удалить эту фотографию?")){
 			var href = $(this).attr('href');
-			var album_id = $(this).attr('album_id');
-			var album_link = $(this).attr('album_link');
 			$.ajax({
 				type: "GET",
 				url: href,

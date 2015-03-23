@@ -1,6 +1,8 @@
 <?php
 include '../../classes/img_biper.class.php';
+include '../../config.php';
 $link = trim(strip_tags($_GET['link']));
+$album_id = intval($_GET['album_id']);
 
 $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/gallery_img/'.$link.'/';
 $uploadfile = $uploaddir . basename($_FILES['files']['name']);
@@ -19,14 +21,17 @@ if (!empty($_FILES)){
 		// $info[2] содержит тип файла:
 		// 1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(байтовый порядок intel),
 		// 8 = TIFF(байтовый порядок motorola), 9 = JPC, 10 = JP2, 11 = JPX.
+		$size = $db->GetGalleryImgSize();
+		$width = $size['width'];
+		$height = $size['height'];
 		if ($info[2] == 2){
-			if ($info[0] > 1000 || $info[1] > 760){
+			if ($info[0] > $width || $info[1] > $height){
 				$new_img = new img_biper($uploadfile);
 				if ($info[0] > $info[1]){
-					$new_img->img_resized(1000, 'w');
+					$new_img->img_resized($width, 'w');
 				}
 				else{
-					$new_img->img_resized(760, 'h');
+					$new_img->img_resized($height, 'h');
 				}
 				$new_img->img_save($uploadfile);
 			}
@@ -38,10 +43,15 @@ if (!empty($_FILES)){
 		else{
 			echo 'not type 2';
 
-			unlink($targetFile);
-			unlink($targetThumb);
+			unlink($uploadfile);
+			unlink($thumblfile);
 		}
-
+		if ($uploadfile){
+			$link_file = basename($uploadfile);
+			$sql = "INSERT INTO `gallery_img` (`album_id`, `link`, `sort`, `create_date`)
+					VALUES ('$album_id', '$link_file', '0', NOW())";
+			$db->query($sql);
+		}
 	    echo "Файл корректен и был успешно загружен.\n";
 	}
 	else{

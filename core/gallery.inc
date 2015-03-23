@@ -23,19 +23,25 @@ if ($id > 0){
 	}
 
 	$name = $album['name'];
-	$mas = $db->OpenAlbum($id,'');
+	$mas = $db->OpenAlbum($id);
 	if(isset($mas)){
 		$form .= '<a href="/gallery/">Назад</a><br />';
 		$form .= '<div id="gallery">';
-		foreach($mas as $fileName){
-			$form .= '<a rel="album" href="/gallery_img/'.$album['link'].'/'.$fileName.'"><img src="/gallery_img/'.$album['link'].'/thumbs/'.$fileName.'"></a>';
+		foreach($mas as $photo){
+			$form .= '<a rel="album" href="/gallery_img/'.$album['link'].'/'.$photo['link'].'"><img src="/gallery_img/'.$album['link'].'/thumbs/'.$photo['link'].'"></a>';
 		}
 		$form .= '</div>';
 	}
 }
 else{
-	$sort_word = array('lang1'=>'Абярыце год','lang2'=>'Выберите год');
-	$all = array('lang1'=>'Усе','lang2'=>'Все');
+	$sort_word = array(
+		'lang1' => 'Абярыце год',
+		'lang2' => 'Выберите год'
+	);
+	$all = array(
+		'lang1' => 'Усе',
+		'lang2' => 'Все'
+	);
 	$year_sort = intval($_GET['year']);
 
 	$years = $db->GetAllGalleryYear();

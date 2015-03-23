@@ -1,69 +1,108 @@
 $(document).ready(function(){
-	// Обновление контента
-	function getCon(){
-		// Получение JSON от сервера
-		$.getJSON('controller/users_get.php',getContent);
+	function getCon(page){
+		var count = 20;
+		$.getJSON('controller/users_get.php?page='+page+'&count='+count,getContent);
 		function getContent(data){
 			var text = '';
 			var users_count = 0;
 			$.each(data, function(adata){
-				// table
-				text+='<tr><td>'+this.id+'</td><td><a href="?content=user_edit&login='+this.login+'">'+this.login+'</a></td><td>'+this.email+'</td><td>'+this.datreg+'</td><td>'+this.group+'</td><td><a href="controller/user_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></td></tr>';
+				if (this.pages_count || this.users_count){
+					if (this.pages_count){
+						pages_count = this.pages_count;
+					}
+					else{
+						users_count = this.users_count;
+					}
+				}
+				else{
+					text+='<tr><td>'+this.id+'</td><td><a href="?content=user_edit&login='+this.login+'">'+this.login+'</a></td><td>'+this.email+'</td><td>'+this.datreg+'</td><td>'+this.group+'</td><td><a href="controller/user_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></td></tr>';
+				}
+			});
 
-				// div
-				//text +='<div class="user"><div class="user_foto"><img src="/avatars/'+this.ava+'" class="img-polaroid img-rounded"></div><div class="data"><b>ID:</b> '+this.id+'<br /><b>Логин:</b> <a href="?content=user_edit&login='+this.login+'">'+this.login+'</a><br /><b>E-mail:</b> '+this.email+'<br /><b>Дата регистрации:</b> '+this.datreg+'<br /></div><div class="user_del_but_kran"><a href="controller/user_del.php?id='+this.id+'" class="del"><i class="icon-trash"></i></a></div></div>';
-
-				users_count++;
-				});
 			$('#users').html(text);
 			$('#users_count').html('Всего пользователей: '+users_count);
+
+			if (pages_count > 1){
+				var pg = '';
+				var _class = '';
+				for (var i = 1; i <= pages_count; i++){
+					_class = '';
+					if (page == i){
+						_class = 'active btn-info';
+					}
+					pg += '<a class="page '+_class+'" page="'+i+'" href="#">'+i+'</a> ';
+				}
+				$('#paginator').html(pg);
+			}
 		}
 	}
-	getCon();
+	getCon(1);
+
+	$(document).on('click','.page',function(){
+		var page = $(this).attr('page');
+		getCon(page);
+
+		return false;
+	});
+
 	// вывод результата действий при сохранений
-	function report(answer,message){
+	function report(answer, message, getContent){
 		if (answer == '1'){
-				getCon();
-				$('#mess').html('<b>&nbsp;'+message+'&nbsp;</b>').show();//.fadeOut(1500);
+			if (getContent == 'Y'){
+				getCon(1);
 			}
-			else{
-				$('#mess').html('<b>&nbsp;'+answer+'&nbsp;</b>').show();//.fadeOut(5000);
-			}
+			$('#mess').html('<b>&nbsp;'+message+'&nbsp;</b>').show().fadeOut(1500);
+		}
+		else{
+			$('#mess').html('<b>&nbsp;'+answer+'&nbsp;</b>').show();//.fadeOut(5000);
+		}
 	}
-	// Сохранение группы пользователя при выборе из списка
-	$(document).on('change', 'select[]', function(){
-		var data2=$('#user_inf').serialize();
-		$.post('controller/users_set.php',data2);
+
+	$(document).on('click','.del_ava',function(){
+		var user_id = $(this).attr('user_id');
+		$.ajax({
+			type: "POST",
+			url: "controller/users_del_ava.php",
+			data: {"user_id": user_id},
+			success: function(msg){
+				$('.avatar_img').attr('src', '/avatars/default.png');
+				report(msg, 'Аватар удалён!');
+			}
+		});
 	});
 
 	// Сгенерировать новый пароль
 	$(document).on('click','.gen',function(evt){
-		var link=$(this).attr('href');
-		var querystr=link.slice(link.indexOf('?')+1);
+		var link = $(this).attr('href');
+		var querystr = link.slice(link.indexOf('?')+1);
 		$.get('controller/genNewPass.php',querystr,rep);
 		function rep (mess){
 			report(mess,'Пароль сгенерирован и отправлен!');
 		}
-		evt.preventDefault();	// Отмена стандартного события
+		return false;
 	});
 
 	// Удаление пользователя
 	$(document).on('click','.del',function(evt){
-		var link=$(this).attr('href');
-		var querystr=link.slice(link.indexOf('?')+1);
+		var link = $(this).attr('href');
+		var querystr = link.slice(link.indexOf('?')+1);
 		$.get('controller/users_del.php',querystr,rep);
 		function rep (mess){
-			report(mess,'Пользователь удалён!');
+			report(mess,'Пользователь удалён!', 'Y');
 		}
-		evt.preventDefault();	// Отмена стандартного события
+		return false;
 	});
-	// Добавление нового пользователя
-	$('#AddUser').click(function(evt){
-		var newUser=$('#reg_form').serialize();
+
+	// Добавление нового пользователя ajax. Отключен, т.к. невозможно загрузить аву
+	/*$('#AddUser').click(function(evt){
+		var newUser = $('#reg_form').serialize();
 		$.post('controller/users_add.php',newUser,rep);
 		function rep(mess){
-			report(mess,'Пользователь добавлен!');
+			report(mess,'Пользователь добавлен!', 'Y');
+			if (mess == 1){
+				$('#reg_form').trigger('reset');
+			}
 		}
-		evt.preventDefault();
-	});
+		return false;
+	});*/
 });

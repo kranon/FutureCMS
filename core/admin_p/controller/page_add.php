@@ -2,13 +2,16 @@
 # Добавление новой страницы и меню для перехода на неё #
 include '../../config.php';
 
+$in_menu = 0;
 $name = htmlspecialchars($_POST['name'], ENT_QUOTES);
-$in_menu = $_POST['add_in_menu'];
+if (isset($_POST['add_in_menu'])){
+	$in_menu = $_POST['add_in_menu'];
+}
 
 $sql = "SELECT `lang2` FROM `page` WHERE `lang2`= '".$name."'";
 $result = $db->query($sql);
 // Если страницы с таким именем не существует, то создаём новую
-if (mysqli_num_rows($result) == 0){
+if ($db->num_rows($result) == 0){
 	if ($in_menu == 'on'){
 		$in_menu = 1;
 	}
@@ -21,10 +24,10 @@ if (mysqli_num_rows($result) == 0){
 	if ($in_menu == 1){
 		//добавление меню
 		$menu = array(
-			'name'=>$name,
-			'link'=>$link,
-			'publ'=>$in_menu,
-			'in'=>'0'
+			'name'		=> $name,
+			'link'		=> '/'.$link.'/',
+			'published'	=> $in_menu,
+			'in'		=> '0'
 		);
 		$db->MenuAdd($menu);
 	}

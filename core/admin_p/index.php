@@ -1,4 +1,5 @@
 <?php session_start();
+
 $group = $_SESSION['group'];
 if (($group == '1') || ($group == '2')){
 	include '../config.php';
@@ -57,24 +58,23 @@ if (($group == '1') || ($group == '2')){
 			break;
 		case 'page_edit':
 			$title .= 'Редактирование страниц';
-			$header = 'Редактирование страницы:';
+			$header = 'Редактирование страницы';
 			$edit_link = '<a href="<?php echo $link;?> ">Посмотреть страницу</a>';
 			break;
 		case 'user_edit':
 			$title .= 'Редактирование пользователя';
 			$header = 'Редактирование пользователя:';
-			/*$edit_link = '<a href="<?php echo $link;?> ">Посмотреть страницу</a>';*/
 			break;
 		case 'news_edit':
 			$title .= 'Редактирование новостей';
-			$header = 'Редактирование новости:';
+			$header = 'Редактирование новости';
 			break;
 		case '':
 			$title .= 'Главная';
 			$header = 'Главная';
 			break;
 	}
-	include 'templates/template4.php';
+	include 'templates/template.php';
 }
 else {
 	header('Location: ../../');

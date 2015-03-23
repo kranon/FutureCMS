@@ -14,7 +14,7 @@ $(document).ready(function(){
 				}
 				text += '<li class="ui-state-default" id='+this.id+'><div class="line well"><div class="menu_id">'+this.id+'</div><span><input type="text" name="name_lang1_'+this.id+'" value="'+this.lang1+'"/></span><span><input type="text" name="name_lang2_'+this.id+'" value="'+this.lang2+'"/></span><span><input type="text" name="link_'+this.id+'" value="'+this.link+'"/></span><span class="in_menu"><input type="text" class="ed" name="in_'+this.id+'" value="'+this.in+'"></span><span class="publ"><input type="checkbox" name="'+this.id+'" value="1" '+pub+'/></span><span class="menu_del"><a href="controller/menuDel.php?id='+this.id+'" class="del" title="Удалить"><i class="icon-trash"></i></a></span></div></li>';
 			});
-			
+
 			$('#tbody_menu').html('<div class="line_head well">'+
 				'<span><b>ID</b></span>'+
 				'<span id="name1"><b>Имя lang1</b></span>'+
@@ -24,7 +24,7 @@ $(document).ready(function(){
 				'<span id="publ"><b>Активно</b></span>'+
 				'<span id="menu_del"><b>Удалить</b></span></div>'+
 				'<ul id="sortable">'+text+'</ul>');
-			
+
 			// drag and drop
 			$(function(){
 			  $("#sortable").sortable({
@@ -34,11 +34,11 @@ $(document).ready(function(){
 					 var ser = $(this).sortable('toArray');
 					 $.post('controller/menu_sort.php?rep='+ser,rep);
 						function rep(mess){
-							report(mess,'Сохранено!');
+							report(mess, 'Сохранено!');
 						}
 				}
 				});
-			});			
+			});
 		}
 	}
 	// вывод результата действий при сохранений
@@ -51,6 +51,7 @@ $(document).ready(function(){
 			}
 	}
 	getMenu();
+
 	// При изменении text сохраняется его значение ("Id", "Вложено в")
 	$(document).on('change','#menu_pub :text',function(){
 		var data2 = $('#menu_pub').serialize();
@@ -59,7 +60,7 @@ $(document).ready(function(){
 			report(mess,'Сохранено!');
 		}
 	});
-		
+
 	// При нажатии на checkbox сохраняется его значение ("Опубликовать")
 	$(document).on('click','#menu_pub :checkbox',function(){
 		var data2 = $('#menu_pub').serialize();
@@ -68,21 +69,21 @@ $(document).ready(function(){
 			report(mess,'Сохранено!');
 		}
 	});
-	
+
 	// Удаление меню
 	$(document).on('click','.del',function(){
 		var link = $(this).attr('href');
 		var querystr = link.slice(link.indexOf('?')+1);
 		if (confirm("Вы действительно хотите удалить это меню?")){
 			$.get('controller/menu_del.php',querystr,rep);}
-		else getMenu();	
+		else getMenu();
 		function rep (mess){
 			getMenu();
 			report(mess,'Меню удалено!');
 		}
 		return false;
 	});
-	
+
 	// Добавление нового меню
 	$('#add_menu_sub').click(function(){
 		var newMenu = $('#add_menu').serialize();

@@ -4,18 +4,19 @@ $(document).ready(function(){
 			type: "POST",
 			url: "controller/album_get.php",
 			success: function(msg){
+				//alert(msg);
 				var text = '';
 				var i = 1;
-				//console.log(msg);
 				if (msg){
 					var album = jQuery.parseJSON(msg);
 					$.each(album, function(){
-						text += '<li class="ui-state-default" id='+this.id+'><div class="album_line well"><span class="gallery_name_lang1"><a href="?content=album&id='+this.id+'">'+this.name_lang1+'</a></span><div class="gallery_right"><span class="gallery_date"><b>Дата создания:</b> '+this.date+'</span><span class="gallery_del"><a href="controller/album_del.php?id='+this.id+'" album_id="'+this.id+'" class="del"><i class="icon-trash"></i></a></span></div></div></li>';
+						text += '<li class="ui-state-default" id='+this.id+'><div class="album_line well"><span class="gallery_name_lang1"><a href="?content=album&id='+this.id+'">'+this.name_lang1+'</a></span><div class="gallery_right"><span class="photo_count"><i class="icon-picture"></i> '+this.count+'</span><span class="gallery_date"><b>Дата создания:</b> '+this.date+'</span><span class="gallery_del"><a href="controller/album_del.php?id='+this.id+'" album_id="'+this.id+'" class="del"><i class="icon-trash"></i></a></span></div></div></li>';
 						i++;
 					});
 
 					$('#tbody_gallery').html('<ul id="sortable">'+text+'</ul>');
 					// drag and drop
+
 					$(function(){
 					  $("#sortable").sortable({
 					    opacity: 0.7,

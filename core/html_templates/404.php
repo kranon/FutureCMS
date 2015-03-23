@@ -36,8 +36,8 @@
 		<tr>
 			<td colspan="2" class="td_top">
 				<div id="lang">
-					<a href="/core/lang1.php"><img src="/design/by.png" border="0"></a>
-					<a href="/core/lang2.php"><img src="/design/ru.gif" border="0"></a>
+					<a href="?lang=lang1"><img src="/design/by.png" border="0"></a>
+					<a href="?lang=lang2"><img src="/design/ru.gif" border="0"></a>
 				</div>
 				<div id="link_l"></div>
 				<script type="text/javascript">insertSwf('/design/animkaru.swf', 698, 178);</script>

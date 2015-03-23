@@ -3,14 +3,16 @@
 <head>
 	<meta http-equiv="content-type" content="text/html" charset="utf-8" />
 	<title><?php echo $title.$name;?></title>
-	<script language="JavaScript" src="/design/scripts.js" type="text/javascript"></script>
 	<meta name="title" content="<?php echo $meta[$lang]['title'];?>" />
 	<meta name="keywords" content="<?php echo $meta[$lang]['keywords'].', '.$name;?>" />
 	<meta name="description" content="<?php echo $meta[$lang]['description'];?>" />
 	<link rel="stylesheet" type="text/css" href="/design/style.css">
 	<link rel="stylesheet" type="text/css" href="/design/droppy.css">
+	<link rel="stylesheet" type="text/css" href="/design/fancybox/jquery.fancybox.css">
 	<?php echo $style;?>
 	<script type="text/javascript" src="/core/js/jquery.js"></script>
+	<script type="text/javascript" src="/design/fancybox/jquery.fancybox.pack.js"></script>
+	<script type="text/javascript" src="/design/scripts.js" type="text/javascript"></script>
 	<?php echo $script;?>
 </head>
 <body class="body">
@@ -18,8 +20,8 @@
 		<tr>
 			<td colspan="2" class="td_top">
 				<div id="lang">
-					<a href="/core/lang1.php"><img src="/design/by.png" border="0"></a>
-					<a href="/core/lang2.php"><img src="/design/ru.gif" border="0"></a>
+					<a href="?lang=lang1"><img src="/design/by.png" border="0"></a>
+					<a href="?lang=lang2"><img src="/design/ru.gif" border="0"></a>
 				</div>
 				<div id="link_l"></div>
 				<script type="text/javascript">insertSwf('/design/animkaru.swf',698,178);</script>
@@ -49,7 +51,7 @@
 					</tr>
 					<tr>
 						<td class="text">
-							<?php echo $db->TextRead($link, $lang);
+							<?php echo $db->TextRead($link, $lang, $_SESSION['group']);
 							echo $form;?>
 						</td>
 					</tr>
@@ -66,7 +68,7 @@
 				<img src="/design/iko_mb.gif" align="absmiddle" />
 				<a href="/login/" class="granat"><?php echo $word[27];?></a>
 				<img src="/design/iko_mb.gif" align="absmiddle" />
-				<script type="text/javascript">mailer('beshion', 'mail.ru', ' class="granat"', '<?php echo $word[28];?>', '');</script>
+				<a href="#feedback_form" class="granat feedback"><?php echo $word[28];?></a>
 			</td>
 		</tr>
 		<tr>
@@ -80,5 +82,17 @@
 			</td>
 		</tr>
 	</table>
+
+	<div style="display:none">
+		<form id="feedback_form" method="post" action="#">
+			<p><h2>Оставить сообщение</h2></p><br />
+			<input type="text" id="name" name="name" placeholder="Введите ваше имя"><br />
+			<input type="text" id="email" name="email" placeholder="Введите E-mail"><br />
+			<textarea id="message" name="message" placeholder="Текст сообщения" rows="7" cols="26"></textarea><br /><br />
+
+			<input type="submit" value="Отправить" />
+		</form>
+	</div>
+
 </body>
 </html>

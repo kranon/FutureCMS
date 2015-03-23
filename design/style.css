@@ -130,9 +130,9 @@ h1 {
 	padding-bottom: 5px;
 	margin: 0px;
 	font-size: 14px;
-	background-image: url(iko_tyt.gif);
+	/*background-image: url(iko_tyt.gif);
 	background-repeat: no-repeat;
-	background-position: left center;
+	background-position: left center;*/
 }
 
 .tfoto {
@@ -214,8 +214,8 @@ h1 {
 	text-align: left;
 }
 .td_top {
-	background-image: url(top.jpg);
-	background-repeat: no-repeat;
+	/*background-image: url(top.jpg);
+	background-repeat: no-repeat;*/
 	vertical-align: top;
 	height: 178px;
 }
@@ -230,10 +230,10 @@ h1 {
 	float: left;
 	font-weight: bold;
 	clear: left;
-	background-image: url(iko1.gif);
+	/*background-image: url(iko1.gif);*/
 	height: 12px;
 	padding-left: 15px;
-	background-repeat: no-repeat;
+	/*background-repeat: no-repeat;*/
 	margin-left: 25px;
 	margin-top: 149px;
 	padding-bottom: 2px;
@@ -420,4 +420,14 @@ h1 {
 }
 .com_ava{
 	margin: 5px;
+}
+form input {
+	margin-bottom: 5px;
+}
+form input[type="text"], form input[type="password"]{
+	width: 200px;
+}
+.error_message{
+	color:red;
+	margin-bottom: 5px;
 }

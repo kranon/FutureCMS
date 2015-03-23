@@ -533,3 +533,37 @@ function insertSwf(plik, width, height){
 }
 
 //-->
+
+$(document).ready(function(){
+	$('.feedback').fancybox();
+	$('#feedback_form').submit(function(){
+		var name = $(this).find('#name').val();
+		var email = $(this).find('#email').val();
+		var message = $(this).find('#message').val();
+
+		if (name && email && message){
+			var data = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "/core/feedback.php",
+				data: data,
+				success: function(msg){
+					alert(msg);
+
+				}
+			});
+
+		}
+		else{
+			alert('Все поля обязательны');
+		}
+
+
+		return false;
+	});
+});
+
+
+
+
+

@@ -1,19 +1,10 @@
 <?php session_start();
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL & ~E_NOTICE);
+ini_set('display_errors', 0);
 
 define('ROOT_DIR', getcwd());
 
 include ROOT_DIR."/core/config.php";
-
-//$_SESSION['group'] = 1;
-//$_SESSION['login'] = 'kranon';
-
-
-//$hex_pass= sha1(sha1('123456').'kranon');
-//echo $hex_pass;
-
 
 if ($_GET['lang']){
 	$lang = $db->ClearData($_GET['lang']);
@@ -29,6 +20,9 @@ else{
 }
 
 $link = $_REQUEST['page'];
+if (!$link){
+	$link = '/';
+}
 
 $title = $site[$lang]['name'].' - ';
 $header = $site[$lang]['header'];
@@ -44,24 +38,19 @@ if (!$db->CheckPage($link)){
 			include ROOT_DIR.'/core/login.inc';
 			include ROOT_DIR.'/core/html_templates/other_page_html.php';
 		break;
+
 		case 'register':
 			$name = 'Регистрация';
 			include ROOT_DIR.'/core/register.inc';
 			include ROOT_DIR.'/core/html_templates/other_page_html.php';
 		break;
+
 		case 'user':
 			$name = 'О пользователе';
 			include ROOT_DIR.'/core/user_info.inc';
 			include ROOT_DIR.'/core/html_templates/other_page_html.php';
 		break;
-		case 'gallery':
-			include ROOT_DIR.'/core/gallery.inc';
-			include ROOT_DIR.'/core/html_templates/other_page_html.php';
-		break;
-		case 'news':
-			include ROOT_DIR.'/core/news.inc';
-			include ROOT_DIR.'/core/html_templates/other_page_html.php';
-		break;
+
 		default:
 			$form = 'Такой страницы не существует!';
 			include ROOT_DIR.'/core/html_templates/404.php';
@@ -70,23 +59,35 @@ if (!$db->CheckPage($link)){
 }
 else{
 	// Пользовательские страницы
-	$name = $db->ReadPageName($link,$lang);
-	switch ($link){
-		case '':
-			include ROOT_DIR.'/core/news.inc';
-			include ROOT_DIR.'/core/html_templates/main_page_html.php';
-		break;
-		case 'gallery':
-			include ROOT_DIR.'/core/gallery.inc';
-			include ROOT_DIR.'/core/html_templates/other_page_html.php';
-		break;
-		case 'news':
-			include ROOT_DIR.'/core/news.inc';
-			include ROOT_DIR.'/core/html_templates/other_page_html.php';
-		break;
-		default:
-			include ROOT_DIR.'/core/html_templates/other_page_html.php';
-		break;
+	$name = $db->ReadPageName($link, $lang);
+	$page_id = $db->GetPageIDbyLink($link);
+	$access = $db->GetPageAccess($page_id);
+
+	if ($db->CheckPageAccess($_SESSION['group'], $access)){
+		switch ($link){
+			case '/':
+				include ROOT_DIR.'/core/html_templates/main_page_html.php';
+			break;
+
+			case 'gallery':
+				include ROOT_DIR.'/core/gallery.inc';
+				include ROOT_DIR.'/core/html_templates/other_page_html.php';
+			break;
+
+			case 'news':
+				include ROOT_DIR.'/core/news.inc';
+				include ROOT_DIR.'/core/html_templates/other_page_html.php';
+			break;
+
+			default:
+				include ROOT_DIR.'/core/html_templates/other_page_html.php';
+			break;
+		}
+	}
+	else{
+		$form = 'У вас нет доступа для просмотра этой страницы!';
+		include ROOT_DIR.'/core/login.inc';
+		include ROOT_DIR.'/core/html_templates/other_page_html.php';
 	}
 }
 ?>

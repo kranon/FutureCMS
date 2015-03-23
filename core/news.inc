@@ -41,13 +41,14 @@ else{
 		$form .= $word[20].' <a href="/login/">'.$word[1].'</a> '.$word[21].' <a href="/register/">'.$word[2].'</a>';
 	}
 	else{
-		$sql = "SELECT `id` FROM `users` WHERE `login`='".$_SESSION['login']."';";
+		$sql = "SELECT `id`, `active` FROM `users` WHERE `login`='".$_SESSION['login']."';";
 		$res = $db->query($sql);
 		while ($row = $db->fetch_array($res)){
 			$curr_user_id = $row['id'];
+			$active = $row['active'];
 		}
-
-		$form .= '<div>
+		if ($active == 'Y'){
+			$form .= '<div>
 			'.$word[19].'<br />
 			<form method="post" action="">
 			<textarea rows="6" cols="60" name="comment_text" ></textarea><br />
@@ -57,5 +58,9 @@ else{
 			</form>
 			</div>';
 		}
+		else{
+			$form .= '<div><p>'.$word[33].'</p></div>';
+		}
+	}
 }
 ?>

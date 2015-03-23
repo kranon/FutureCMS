@@ -5,11 +5,11 @@
 	<title><?php echo $title.$name;?></title>
 	<script language="JavaScript" src="design/scripts.js" type="text/javascript"></script>
 	<meta name="title" content="<?php echo $meta[$lang]['title'];?>" />
-    <meta name="keywords" content="<?php echo $meta[$lang]['keywords'].', '.$name;?>" />
-    <meta name="description" content="<?php echo $meta[$lang]['description'];?>" />
+	<meta name="keywords" content="<?php echo $meta[$lang]['keywords'].', '.$name;?>" />
+	<meta name="description" content="<?php echo $meta[$lang]['description'];?>" />
 	<link rel="stylesheet" href="design/style.css" type="text/css" media="screen, projection" />
 	<link rel="stylesheet" href="design/droppy.css" type="text/css" media="screen, projection" />
-    <link rel="stylesheet" href="design/form_err.css" type="text/css" media="screen, projection" />
+	<link rel="stylesheet" href="design/form_err.css" type="text/css" media="screen, projection" />
 	<?php echo $style;?>
 	<script type="text/javascript" src="core/js/jquery.js"></script>
 	<script type="text/javascript" src="core/js/jquery.validate.js"></script>
@@ -24,24 +24,24 @@
   _gaq.push(['_trackPageview']);
 
   (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
 </head>
 <body class="body">
 <table width="698"  cellspacing="0" cellpadding="0" align="center">
   <tr>
-    <td colspan="2" class="td_top">
-      <div id="lang">
-          <a href="core/lang1.php"><img src="design/by.png" border="0"></a>
-          <a href="core/lang2.php"><img src="design/ru.gif" border="0"></a>
-      </div>
-      <div id="link_l">
-      </div>
-      <script type="text/javascript">insertSwf('design/animkaru.swf',698,178);</script>
-    </td>
+	<td colspan="2" class="td_top">
+	  <div id="lang">
+		<a href="?lang=lang1"><img src="/design/by.png" border="0"></a>
+		<a href="?lang=lang2"><img src="/design/ru.gif" border="0"></a>
+	  </div>
+	  <div id="link_l">
+	  </div>
+	  <script type="text/javascript">insertSwf('design/animkaru.swf',698,178);</script>
+	</td>
   </tr>
 	<tr><td class="kol_lewa">
 		<table width="167" align="center" cellspacing="0" cellpadding="0">
