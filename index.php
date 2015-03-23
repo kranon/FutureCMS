@@ -6,7 +6,7 @@ define('ROOT_DIR', getcwd());
 
 include ROOT_DIR."/core/config.php";
 
-if ($_GET['lang']){
+if (isset($_GET['lang'])){
 	$lang = $db->ClearData($_GET['lang']);
 	$_SESSION['lang'] = $lang;
 }
@@ -18,8 +18,12 @@ else{
 		$lang = 'lang1';
 	}
 }
+$link = false;
+if (isset($_REQUEST['page'])){
+	$link = $_REQUEST['page'];
+}
 
-$link = $_REQUEST['page'];
+
 if (!$link){
 	$link = '/';
 }
@@ -29,6 +33,8 @@ $header = $site[$lang]['header'];
 $footer = $site[$lang]['footer'];
 
 $word = $db->WordsTranslate($lang);
+
+echo '<pre>'; print_r($_REQUEST); echo '</pre>';
 
 if (!$db->CheckPage($link)){
 	// Системные страницы
