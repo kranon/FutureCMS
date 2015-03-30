@@ -134,7 +134,7 @@ class Auth {
 		if (isset($logn) && isset($pass)){
 			$pass = sha1(sha1($pass).$logn);
 
-			$sql = "SELECT `login`,`pass` FROM `users` WHERE `login` = '$logn' AND `pass` = '$pass'";
+			$sql = "SELECT `login`,`pass` FROM `users` WHERE `login` = '$logn' AND `pass` = '$pass';";
 			$result = $db->query($sql);
 			if($db->num_rows($result) == 0){
 				return false;

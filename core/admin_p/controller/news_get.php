@@ -8,7 +8,7 @@ $count = intval($_GET['count']);
 
 $page = ($page - 1) * $count;
 
-$sql = "SELECT `id` FROM `page` ORDER BY `id` ASC";
+$sql = "SELECT `id` FROM `news` ORDER BY `id` ASC";
 $result = $db->query($sql);
 $json[]['pages_count'] = ceil($db->num_rows($result) / $count);
 

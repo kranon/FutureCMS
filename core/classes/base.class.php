@@ -377,7 +377,6 @@ class DataBase{
 	}
 	// добавление текста на страницу
 	public function AddText($page){
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/text.txt', print_r($page['access'],1));
 		if(self::$connection){
 			$sql = "UPDATE `page` SET
 								`lang1`='".$page['name']['lang1']."',
